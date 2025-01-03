@@ -1,0 +1,170 @@
+* {
+    background-color: #252836;
+    font-family: "barlow";
+}
+
+.main {
+    display: flex;
+    height: 834px;
+    width: 1194px;
+    border: 1px solid black;
+    position: relative;
+
+}
+
+.navigate-bar {
+    /* border: 1px solid black; */
+    width: 104px;
+    height: 100%;
+    background-color: #1F1D2B;
+    border-radius: 16px;
+
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: space-between;
+    
+    align-items: center;
+
+}
+
+.main-selection {
+    /* border: 1px solid black; */
+    height: 1046px;
+    width: 633px;
+
+    
+    position: absolute;
+
+    left: 128px;
+    top: 24px;
+
+    
+
+    
+
+
+
+}
+
+.info {
+    /* border: 1px solid black; */
+    border-radius: 3.77px;
+    height: 834px;
+    width: 409px;
+    background-color: #1F1D2B;
+
+    position: absolute;
+    right: 0px;
+
+
+
+
+}
+
+.logo {
+    height: 56px;
+    width: 56px;
+    background-color: transparent;
+   
+    
+}
+
+.button {
+    background: none;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    background-color: transparent;
+    padding: 0px;
+
+}
+
+
+.btn-img {
+    background-color: transparent;
+    height: 92px;
+    width: 92px;
+    align-self: center;
+
+}
+
+.btns {
+    width: 104px;
+    background-color: transparent;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.btn-logo{
+    background-color: transparent;
+    margin: 24px;
+}
+
+.btn-exit{
+
+    background-color: transparent;
+    position: absolute;
+    bottom: 0px;
+    margin: 24px;
+}
+
+.search-box {
+    width: 164px;
+    height: 20px;
+    padding: 14px;
+    background: none;
+    box-shadow: none;
+
+    color: white;
+
+
+    border: 1px solid #393C49;
+    border-radius: 8px;
+    font-size: 14px;
+
+    position: absolute;
+    right: 0px;
+    top: 8px;
+
+}
+
+
+.sorting {
+  
+    width: 633px;
+    height: 128px;
+    border-bottom: 1px solid #393C49;
+    position: relative;
+}
+
+
+
+h1 {
+    margin: 0px;
+    color: white;
+    font-family: "barlow";
+
+}
+p{
+    color: white;
+}
+
+
+.dish-btn{
+    color: white;
+    margin-right: 20px;
+}
+
+.dish-type{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    height: 33px;
+    width: 636px;
+ 
+    position: absolute;
+    bottom: 0px;
+}
