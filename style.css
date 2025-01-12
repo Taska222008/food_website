@@ -1,27 +1,27 @@
 * {
     background-color: #252836;
     font-family: "barlow";
+    margin: 0;
 }
 
 .main {
     display: flex;
-    height: 834px;
-    width: 1194px;
-    border: 1px solid black;
-    position: relative;
+    height: 100%;
+    width: 100%;
+
 
 }
 
 .navigate-bar {
     /* border: 1px solid black; */
-    width: 104px;
-    height: 100%;
+
+    height: 100vh;
     background-color: #1F1D2B;
     border-radius: 16px;
 
     display: flex;
     flex-direction: column;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     align-content: space-between;
     
     align-items: center;
@@ -30,35 +30,19 @@
 
 .main-selection {
     /* border: 1px solid black; */
-    height: 1046px;
-    width: 633px;
+    height: 100vh;
+    width: 60%;
 
-    
-    position: absolute;
-
-    left: 128px;
-    top: 24px;
-
-    
-
-    
-
-
+    padding: 22px;
 
 }
 
 .info {
     /* border: 1px solid black; */
     border-radius: 3.77px;
-    height: 834px;
-    width: 409px;
+    height: 100vh;
+    width: 40%;
     background-color: #1F1D2B;
-
-    position: absolute;
-    right: 0px;
-
-
-
 
 }
 
@@ -67,7 +51,6 @@
     width: 56px;
     background-color: transparent;
    
-    
 }
 
 .button {
@@ -102,41 +85,47 @@
     margin: 24px;
 }
 
-.btn-exit{
+/* .btn-exit{
 
     background-color: transparent;
     position: absolute;
     bottom: 0px;
     margin: 24px;
-}
-
-.search-box {
-    width: 164px;
-    height: 20px;
-    padding: 14px;
-    background: none;
-    box-shadow: none;
-
-    color: white;
-
-
+} */
+.search-selection{
     border: 1px solid #393C49;
     border-radius: 8px;
     font-size: 14px;
 
-    position: absolute;
-    right: 0px;
-    top: 8px;
+    display: flex;
+    align-items: center;
 
+    padding: 3px 10px;
+
+}
+.search-box {
+    width: 100%;
+    height: 80%;
+    
+    background: none;
+    box-shadow: none;
+    border: none;
+
+    color: white;
 }
 
 
 .sorting {
   
-    width: 633px;
+
     height: 128px;
     border-bottom: 1px solid #393C49;
     position: relative;
+}
+
+.sorting_top{
+    display: flex;
+    justify-content: space-between;
 }
 
 
@@ -167,4 +156,8 @@ p{
  
     position: absolute;
     bottom: 0px;
+}
+
+.dish-btn.active{
+    border-bottom: 2px solid red;
 }
