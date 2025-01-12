@@ -1,65 +1,38 @@
-* {
+*, body {
+    margin: 0;
     background-color: #252836;
     font-family: "barlow";
 }
 
 .main {
     display: flex;
-    height: 834px;
-    width: 1194px;
-    border: 1px solid black;
-    position: relative;
-
+    height: 100%;
+    width: 100%;
 }
 
 .navigate-bar {
-    /* border: 1px solid black; */
-    width: 104px;
-    height: 100%;
+    height: 100vh;
     background-color: #1F1D2B;
     border-radius: 16px;
-
     display: flex;
     flex-direction: column;
-    flex-wrap: wrap;
+    flex-wrap: no-wrap;
     align-content: space-between;
-    
     align-items: center;
-
 }
 
 .main-selection {
-    /* border: 1px solid black; */
-    height: 1046px;
-    width: 633px;
-
-    
-    position: absolute;
-
-    left: 128px;
-    top: 24px;
-
-    
-
-    
-
-
-
+    height: 100%;
+    width: 60%;
+    padding: 22px;
 }
 
 .info {
-    /* border: 1px solid black; */
+    height: 100vh;
     border-radius: 3.77px;
-    height: 834px;
-    width: 409px;
+    width: 40%;
     background-color: #1F1D2B;
-
-    position: absolute;
-    right: 0px;
-
-
-
-
+    /* background-color: #fb6000; */
 }
 
 .logo {
@@ -77,7 +50,7 @@
     box-shadow: none;
     background-color: transparent;
     padding: 0px;
-
+    cursor: pointer;
 }
 
 
@@ -110,30 +83,38 @@
     margin: 24px;
 }
 
-.search-box {
-    width: 164px;
-    height: 20px;
-    padding: 14px;
-    background: none;
-    box-shadow: none;
+.sorting-top {
+    display: flex;
+    justify-content: space-between;
+}
 
-    color: white;
-
-
+.search-selection {
     border: 1px solid #393C49;
     border-radius: 8px;
     font-size: 14px;
+    /* width: 170px;
+    height: 50px; */
+    display: flex;
+    align-items: center;
+    padding: 3px 10px;
+}
 
-    position: absolute;
-    right: 0px;
-    top: 8px;
+.search-selection img {
+    width: 30px;
+    height: 30px;
+}
 
+.search-box {
+    width: 100%;
+    height: 80%;
+    background: none;
+    box-shadow: none;
+    border: none;
+    color: white;
 }
 
 
 .sorting {
-  
-    width: 633px;
     height: 128px;
     border-bottom: 1px solid #393C49;
     position: relative;
@@ -154,7 +135,13 @@ p{
 
 .dish-btn{
     color: white;
-    margin-right: 20px;
+    margin-right: 30px;
+    font-size: 16px;
+    
+}
+
+.dish-btn.active {
+    border-bottom: 1px solid #EA7C69;
 }
 
 .dish-type{
@@ -164,7 +151,6 @@ p{
     justify-content: flex-start;
     height: 33px;
     width: 636px;
- 
     position: absolute;
     bottom: 0px;
 }
