@@ -1,15 +1,19 @@
 * {
-    background-color: #252836;
+
     font-family: "barlow";
     margin: 0;
 }
 
 .main {
     display: flex;
-    height: 100%;
+    height: 100vh;
     width: 100%;
 
 
+}
+
+body{
+    background-color: #252836;
 }
 
 .navigate-bar {
@@ -30,7 +34,7 @@
 
 .main-selection {
     /* border: 1px solid black; */
-    height: 100vh;
+    height: calc(100vh - 44px);
     width: 60%;
 
     padding: 22px;
@@ -160,4 +164,105 @@ p{
 
 .dish-btn.active{
     border-bottom: 2px solid red;
+}
+
+
+
+
+
+.food-browser {
+    margin: 20px 0px;
+}
+
+.food-browser-title {
+    margin-bottom: 20px;
+    color: white;
+}
+.food-menu {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 5px;
+    max-height: calc(100vh - 220px);
+    overflow: auto;
+    transform: translateY(0px);
+    opacity: 0;
+}
+
+.goup-effect {
+    animation: goup 0.5s linear;
+    animation-fill-mode: forwards;
+}
+
+@keyframes goup {
+    0% {
+        transform: translateY(50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0px);
+    }
+}
+
+.food-item {
+    width: 160px;
+    height: 190px;
+    position: relative;
+    border-radius: 5px;
+    padding: 5px;
+    background-color: #1F1D2B;
+    margin: 30px;
+    cursor: pointer;
+}
+
+.food-item p {
+    text-align: center;
+    background-color: #1F1D2B;
+    font-size: 14px;
+}
+
+.food-item-info {
+    width: 130px;
+    border-radius: 5px;
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.food-item img {
+    width: 120px;
+    height: 120px;
+    position: absolute;
+    top: -35px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: transparent;
+}
+
+.item-price {
+    padding: 7px 0px;
+}
+
+.item-avai {
+    color: #ABBBC2;
+}
+
+.add-to-cart-mini {
+    position: absolute;
+    top: 10px;
+    right: 25px;
+    cursor: pointer;
+    opacity: 0.1;
+    transition: all 0.5s;
+}
+.add-to-cart-mini img {
+    width: 25px;
+    height: 25px;
+    background: transparent;
+}
+
+.food-item:hover .add-to-cart-mini {
+    opacity: 1;
+    top: 20px
 }
