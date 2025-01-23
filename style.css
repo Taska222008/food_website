@@ -153,6 +153,7 @@ p{
     bottom: 0px;
 }
 
+/* Style for main selection */
 .food-browser {
     margin: 20px 0px;
 }
@@ -250,6 +251,7 @@ p{
     top: 20px
 }
 
+/* Style for details information */
 .info {
     border-radius: 3.77px;
     width: 40%;
