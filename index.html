@@ -22,70 +22,99 @@
                 <button class="button"><img src="./images/Setting.svg" class="btn-img"></button>
                 <button class="button"><img src="./images/Logout.svg" class="btn-img"></button>
             </div>
-
-            
-                
-            
-
         </div>
 
 
         <div class="main-selection">
             <div class="sorting">
-                <div class="sorting_top">
+                <div class="sorting-top">
                     <div>
                         <h1>Jaegar Resto</h1>
                         <p style="margin-top: 4px; margin-bottom: 0px;">Tuesday, 2 Feb 2021</p>
                     </div>
-                  
+    
                     <div class="search-selection">
-                        <img src="./images/search.svg">
+                        <img src="./images/search.svg" alt="">
                         <input type="text" placeholder="Search for food, coffe, etc.." class="search-box">
                     </div>
                 </div>
 
                 <div class="dish-type">
-                    <button class="button dish-btn active">Hot dished</button>
-                    <button class="button dish-btn">Hot dished</button>
-                    <button class="button dish-btn">Hot dished</button>
-                    <button class="button dish-btn">Hot dished</button>
-                    <button class="button dish-btn">Hot dished</button>
-                    <button class="button dish-btn">Hot dished</button>
+                    <button type="hotDish" class="button dish-btn active">Hot dished</button>
+                    <button type="coldDish" class="button dish-btn">Cold dished</button>
+                    <button type="soup" class="button dish-btn">Soup</button>
+                    <button type="grill" class="button dish-btn">Grill</button>
+                    <button type="appetizer" class="button dish-btn">Appetizer</button>
+                    <button type="dessert" class="button dish-btn">Dessert</button>
                 </div>
             </div>
-
-            <h3>Choose Dishes</h3>
 
             <div class="food-browser">
-                <!-- <div class="food-browser-title">
+                <div class="food-browser-title">
                     <h3>Choose Dishes</h3>
-                   
-                </div> -->
-
-                <div class="food-item">
-
-
-                    <img src="./images/food1.png" alt="">
-
-                    <div class="food-item-info">
-                        <p>Spicy seasoned seafood noodles</p>
-                        <p class="item-price">$ 2.29</p>
-                        <p class="item-avai">20 Bowls available</p>
-                    </div>
-
-                    <button class="add-to-cart-mini"><img src="./images/plus.png" alt=""></button>
-
-
+                    <!-- <select>
+                        <option value="dine-in">Dine in</option>
+                        <option value="take-away">Take away</option>
+                    </select> -->
                 </div>
-
-
+                <div class="food-menu">
+                    <!-- <div item-id="${data.id}" class="food-item anime">
+                        <img src="./img/food${data.id}.png" alt="">
+                        <div class="food-item-info">
+                            <p>${data.name}</p>
+                            <p class="item-price">$ ${data.price}</p>
+                            <p class="item-avai">${data.stock} Bowls available</p>
+                        </div>
+                        <a class="add-to-cart-mini"><img src="./img/plus.png" alt=""></a>
+                    </div> -->
+                </div>
             </div>
-
-        
-    
-
         </div>
-        <div class="info">3</div>
+
+        <div class="info">
+            <div style="color: white; width: 250px; margin-left: 50%; margin-top: 50%; transform: translate(-50%, -50%); text-align: center;">Click food to view details information</div>
+            
+            <!-- <div class="info-container">
+                <div class="food-descript">
+                    <img src="./img/food_full_1.png" alt="">
+                    <div>
+                        <h3 class="detail-title">Spicy seasoned seafood noodles</h3>
+                        <p class="detail-price">$ 2.29</p>
+                    </div>
+                    <p class="food_des">A bold and flavorful dish featuring tender noodles tossed in a rich, spicy sauce, infused with aromatic seasonings. Loaded with a medley of fresh seafood, including shrimp, squid, and mussels, this dish offers a perfect balance of heat and savory ocean flavors. Garnished with fresh herbs and a hint of lime for a zesty finish.</p>
+                </div>
+                <div class="food-add-on">
+                    <div class="add-on-item">
+                        <div>
+                            <input type="checkbox" id="extra1" name="vehicle1" value="Bike">
+                            <label for="extra1"> Beef</label>
+                        </div>
+                        <p>+2.3</p>
+                    </div>
+                    <hr>
+                    <div class="add-on-item">
+                        <div>
+                            <input type="checkbox" id="extra1" name="vehicle1" value="Bike">
+                            <label for="extra1"> Squide</label>
+                        </div>
+                        <p>+3.0</p>
+                    </div>
+                    <hr>
+                    <div class="add-on-item">
+                        <div>
+                            <input type="checkbox" id="extra1" name="vehicle1" value="Bike">
+                            <label for="extra1"> Meat ball</label>
+                        </div>
+                        <p>+5.0</p>
+                    </div>
+                </div>
+                <div class="food-note">
+                    <input type="text" placeholder="Order Note...">
+                </div>
+            </div>
+           
+           -->
+        </div>
 
 
     </div>
