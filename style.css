@@ -70,7 +70,7 @@ body{
 
 .btn-img {
     background-color: transparent;
-    height: 94px;
+    height: 90px;
     width: 45px;
     align-self: center;
 
@@ -170,15 +170,13 @@ p{
 
 
 
-.food-browser {
-    margin: 20px 0px;
-}
 
 .food-browser-title {
     margin-bottom: 20px;
     color: white;
 }
-.food-menu {
+.food-browser {
+    margin: 20px 0px;
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
@@ -186,7 +184,7 @@ p{
     max-height: calc(100vh - 220px);
     overflow: auto;
     transform: translateY(0px);
-    opacity: 0;
+    opacity: 1;
 }
 
 .goup-effect {
