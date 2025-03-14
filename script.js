@@ -1,11 +1,11 @@
 const dishBtnContainer = document.querySelector(".dish-type");
 const foodMenuEle = document.querySelector(".food-menu");
 const detailEle = document.querySelector(".info");
-const addBtn = document.querySelector(".add_quan_btn");
-let removeBtn = document.querySelector(".remove_quan_btn");
-let quantityEle = document.querySelector(".quan_val");
+// const addBtn = document.querySelector(".add_quan_btn");
+// let removeBtn = document.querySelector(".remove_quan_btn");
+// let quantityEle = document.querySelector(".quan_val");
 
-const currentType = "hotDish";
+let currentType = "hotDish";
 const foodMenuData = {
     hotDish: [
         {
@@ -16,9 +16,9 @@ const foodMenuData = {
             details: {
                 desc: "A bold and flavorful dish featuring tender noodles tossed in a rich, spicy sauce, infused with aromatic seasonings. Loaded with a medley of fresh seafood, including shrimp, squid, and mussels, this dish offers a perfect balance of heat and savory ocean flavors. Garnished with fresh herbs and a hint of lime for a zesty finish.",
                 extra: [
-                { name: "Egg", price: 2 },
-                { name: "Noodle", price: 2.5 },
-                { name: "Beef", price: 5.5 },
+                    { name: "Egg", price: 2 },
+                    { name: "Noodle", price: 2.5 },
+                    { name: "Beef", price: 5.5 },
                 ],
             },
         },
@@ -141,18 +141,34 @@ const foodMenuData = {
             name: "Creamy seafood pasta",
             price: 3.49,
             stock: 15,
+            details: {
+                desc: "A bold and flavorful dish featuring tender noodles tossed in a rich, spicy sauce, infused with aromatic seasonings. Loaded with a medley of fresh seafood, including shrimp, squid, and mussels, this dish offers a perfect balance of heat and savory ocean flavors.",
+                extra: [
+                { name: "Egg", price: 2 },
+                { name: "Noodle", price: 2.5 },
+                { name: "Beef", price: 5.5 },
+                ],
+            },
         },
         {
             id: 5,
-        name: "Garlic butter shrimp linguine",
-        price: 6.99,
-        stock: 10,
+            name: "Garlic butter shrimp linguine",
+            price: 6.99,
+            stock: 10,
+            details: {
+                desc: "A bold and flavorful dish featuring tender noodles tossed in a rich, spicy sauce, infused with aromatic seasonings. Loaded with a medley of fresh seafood, including shrimp, squid, and mussels, this dish offers a perfect balance of heat and savory ocean flavors.",
+                extra: [
+                { name: "Egg", price: 2 },
+                { name: "Noodle", price: 2.5 },
+                { name: "Beef", price: 5.5 },
+                ],
+            },
         },
         {
             id: 5,
-        name: "Pork dumplings in savory broth",
-        price: 11.25,
-        stock: 18,
+            name: "Pork dumplings in savory broth",
+            price: 11.25,
+            stock: 18,
         },
         {
             id: 4,
@@ -193,19 +209,22 @@ const foodMenuData = {
     ],
     soup: [
         {
-        name: "Classic chicken noodle soup",
-        price: 4.99,
-        stock: 25,
+            id: 5,
+            name: "Classic chicken noodle soup",
+            price: 4.99,
+            stock: 25,
         },
         {
-        name: "Creamy tomato basil soup",
-        price: 3.89,
-        stock: 18,
+            id: 2,
+            name: "Creamy tomato basil soup",
+            price: 3.89,
+            stock: 18,
         },
         {
-        name: "Hearty beef and barley soup",
-        price: 7.45,
-        stock: 12,
+            id: 9,
+            name: "Hearty beef and barley soup",
+            price: 7.45,
+            stock: 12,
         },
         {
         name: "Spicy lentil and vegetable soup",
@@ -400,7 +419,7 @@ dishBtnContainer.addEventListener("click", function (e) {
 function renderFoodItem(data) {
   return `
         <div item-id="${data.id}" class="food-item anime">
-            <img src="./img/food${data.id}.png" alt="">
+            <img src="./img/food${data.id}.png" alt=""> 
             <div class="food-item-info">
                 <p>${data.name}</p>
                 <p class="item-price">$ ${data.price}</p>
@@ -411,12 +430,10 @@ function renderFoodItem(data) {
     `;
 }
 function renderFoodMenu(dataList) {
-  foodMenuEle.classList.remove("goup-effect");
   let content = "";
   dataList.forEach(function (food) {
     content += renderFoodItem(food);
   });
-
   foodMenuEle.classList.remove("goup-effect");
   setTimeout(() => {
     foodMenuEle.innerHTML = content;
@@ -474,22 +491,34 @@ function renderDetails(details) {
             <button>Add to cart</button>
         </div>
     `;
-    detailEle.innerHTML = detail + footerEle ;
+    detailEle.innerHTML = detail ;
+
+    let quantity = 0;
+    const addQuanEle = document.querySelector('.add_quan_btn');
+    const removeQuanEle = document.querySelector('.remove_quan_btn');
+    const quanInput = document.querySelector('.quan_val');
+    console.log('addQuanEle', addQuanEle)
+    addQuanEle.addEventListener('click', function(e) {
+        quantity++;
+        quanInput.value = quantity;
+    });
+    removeQuanEle.addEventListener('click', function(e) {
+        if (quantity <= 0) return;
+        quantity--;
+        quanInput.value = quantity;
+    })
 }
 
 foodMenuEle.addEventListener('click', function(e) {
-    const selectedId = e.target.closest('.food-item').getAttribute('item-id');
-    const selectItem = foodMenuData[currentType].find(function(item) {
-        return item.id == selectedId;
-    })
-    console.log(selectItem)
-    renderDetails(selectItem);
+    if (e.target.closest('.food-item')) {
+        const selectedId = e.target.closest('.food-item').getAttribute('item-id');
+   
+        const selectItem = foodMenuData[currentType].find(function(item) {
+            return item.id == selectedId;
+        })
+        renderDetails(selectItem);
+    }
+    
 });
-
-// removeBtn?.addEventListener('click', function(e) {
-//     const currQuan = parseInt(quantityEle.innerHTML);
-//     currQuan += 1;
-//     quantityEle.innerHTML = currQuan;
-// })
 
 renderFoodMenu(foodMenuData[currentType]);

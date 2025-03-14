@@ -83,6 +83,34 @@ body {
     justify-content: space-between;
 }
 
+.basket {
+    margin-right: 30px;
+    position: relative;;
+}
+.basket img{
+    width: 30px;
+    height: 30px;
+}
+.basket div {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background-color: rgb(0, 143, 252);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sorting-top-right {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
 .search-selection {
     border: 1px solid #393C49;
     border-radius: 8px;
