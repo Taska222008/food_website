@@ -1,11 +1,17 @@
 const dishBtnContainer = document.querySelector(".dish-type");
 const foodMenuEle = document.querySelector(".food-menu");
 const detailEle = document.querySelector(".info");
-const addBtn = document.querySelector(".add_quan_btn");
-let removeBtn = document.querySelector(".remove_quan_btn");
-let quantityEle = document.querySelector(".quan_val");
+const search_input = document.querySelector(".search-box")
+// const addBtn = document.querySelector(".add_quan_btn");
+// let removeBtn = document.querySelector(".remove_quan_btn");
+// let quantityEle = document.querySelector(".quan_val");
+
+
 
 let currentType = "hotDish";
+
+
+
 const foodMenuData = {
     hotDish: [
         {
@@ -570,6 +576,24 @@ const foodMenuData = {
     ],
 };
 
+
+
+search_input.addEventListener("change", (e) => {
+    let search_value = search_input.value;
+    search_food(search_value)
+
+})
+
+function search_food(value) {
+    let search_data = foodMenuData[currentType].filter(function(e){
+        if(e.name.toLowerCase().includes(value.toLowerCase())){
+            return true
+        }
+    })
+    renderFoodMenu(search_data)
+}
+
+
 dishBtnContainer.addEventListener("click", function (e) {
   if (e.target.classList[1] === "dish-btn") {
     // remove all active class out of all buttons
@@ -584,6 +608,7 @@ dishBtnContainer.addEventListener("click", function (e) {
     let type = e.target.getAttribute("type")
     renderFoodMenu(foodMenuData[type])
     currentType = type
+    search_input.value = ""
 
   }
 });
@@ -691,6 +716,20 @@ function renderDetails(details) {
     `;
     detailEle.innerHTML = detail  ;
     // + footerEle
+    let quan = 0;
+    const add_btn = document.querySelector(".add_quan_btn");
+    const remove_btn = document.querySelector(".remove_quan_btn");
+    const quan_display = document.querySelector(".quan_val")
+
+    add_btn.addEventListener("click", function(){
+        quan ++
+        quan_display.value = quan
+    })
+    remove_btn.addEventListener("click", function(){
+        if(quan <= 0){return}
+        quan --
+        quan_display.value = quan
+    })
 }
 
 foodMenuEle.addEventListener('click', function(e) {
