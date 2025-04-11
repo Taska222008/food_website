@@ -2,17 +2,30 @@ const dishBtnContainer = document.querySelector(".dish-type");
 const foodMenuEle = document.querySelector(".food-menu");
 const detailEle = document.querySelector(".info");
 const search_input = document.querySelector(".search-box")
+const date_time = document.querySelector(".date")
+const stock_counter = document.querySelector(".item-counter span")
+
+
+let add_btn;
+
 // const addBtn = document.querySelector(".add_quan_btn");
 // let removeBtn = document.querySelector(".remove_quan_btn");
 // let quantityEle = document.querySelector(".quan_val");
 
+let basket = []
+
+let quan = 1;
 
 
 let currentType = "hotDish";
 
+let current_item;
 
 
-const foodMenuData = {
+date_time.innerHTML = new Intl.DateTimeFormat("en-GB", {dateStyle:"full"}).format(new Date())
+
+
+let foodMenuData = {
     hotDish: [
         {
             id: 1,
@@ -143,7 +156,7 @@ const foodMenuData = {
     ],
     coldDish: [
         {
-            id: 1,
+            id: 11,
             name: "Spicy seasoned seafood noodles",
             price: 2.29,
             stock: 20,
@@ -158,7 +171,7 @@ const foodMenuData = {
         },
     
         {
-            id: 3,
+            id: 13,
             name: "Beef dumpling in hot and sour soup",
             price: 12.33,
             stock: 16,
@@ -172,7 +185,7 @@ const foodMenuData = {
             },
         },
         {
-            id: 7,
+            id: 17,
             name: "Healthy noodle with spinach leaf",
             price: 10.99,
             stock: 26,
@@ -189,7 +202,7 @@ const foodMenuData = {
     ],
     soup: [
         {
-            id: 3,
+            id: 23,
             name: "Beef dumpling in hot and sour soup",
             price: 12.33,
             stock: 16,
@@ -203,7 +216,7 @@ const foodMenuData = {
             },
         },
         {
-            id: 2,
+            id: 22,
             name: "Salted Pasta with mushroom sauce",
             price: 5.59,
             stock: 12,
@@ -217,7 +230,7 @@ const foodMenuData = {
             },
         },
         {
-            id: 9,
+            id: 29,
             name: "Spicy seasoned seafood noodles",
             price: 73.24,
             stock: 7,
@@ -231,7 +244,7 @@ const foodMenuData = {
             },
         },
         {
-            id: 7,
+            id: 27,
             name: "Healthy noodle with spinach leaf",
             price: 10.99,
             stock: 26,
@@ -248,7 +261,7 @@ const foodMenuData = {
     ],
     grill: [
         {
-            id: 8,
+            id: 38,
             name: "Spicy seasoned seafood noodles",
             price: 20.12,
             stock: 5,
@@ -262,7 +275,7 @@ const foodMenuData = {
             },
         },
         {
-            id: 6,
+            id: 36,
             name: "Spicy instant noodle with special omelette",
             price: 100.0,
             stock: 88,
@@ -276,7 +289,7 @@ const foodMenuData = {
             },
         },
         {
-            id: 5,
+            id: 35,
             name: "Hot spicy fried rice with omelet",
             price: 60.33,
             stock: 0,
@@ -290,7 +303,7 @@ const foodMenuData = {
             },
         },
         {
-            id: 7,
+            id: 37,
             name: "Healthy noodle with spinach leaf",
             price: 10.99,
             stock: 26,
@@ -304,7 +317,7 @@ const foodMenuData = {
             },
         },
         {
-            id: 9,
+            id: 39,
             name: "Spicy seasoned seafood noodles",
             price: 73.24,
             stock: 7,
@@ -318,7 +331,7 @@ const foodMenuData = {
             },
         },
         {
-            id: 4,
+            id: 34,
             name: "Salted Pasta with mushroom sauce",
             price: 5.59,
             stock: 12,
@@ -332,7 +345,7 @@ const foodMenuData = {
             },
         },
         {
-            id: 2,
+            id: 32,
             name: "Spicy seasoned seafood noodles",
             price: 44.05,
             stock: 2,
@@ -346,7 +359,7 @@ const foodMenuData = {
             },
         },
         {
-            id: 1,
+            id: 31,
             name: "Spicy seasoned seafood noodles",
             price: 2.29,
             stock: 20,
@@ -360,7 +373,7 @@ const foodMenuData = {
             },
         },
         {
-            id: 3,
+            id: 33,
             name: "Beef dumpling in hot and sour soup",
             price: 12.33,
             stock: 16,
@@ -376,7 +389,7 @@ const foodMenuData = {
     ],
     appetizer: [
         {
-            id: 2,
+            id: 42,
             name: "Spicy seasoned seafood noodles",
             price: 44.05,
             stock: 2,
@@ -390,7 +403,7 @@ const foodMenuData = {
             },
         },
         {
-            id: 1,
+            id: 41,
             name: "Spicy seasoned seafood noodles",
             price: 2.29,
             stock: 20,
@@ -404,7 +417,7 @@ const foodMenuData = {
             },
         },
         {
-            id: 3,
+            id: 43,
             name: "Beef dumpling in hot and sour soup",
             price: 12.33,
             stock: 16,
@@ -418,7 +431,7 @@ const foodMenuData = {
             },
         },
         {
-            id: 6,
+            id: 46,
             name: "Spicy instant noodle with special omelette",
             price: 100.0,
             stock: 88,
@@ -432,7 +445,7 @@ const foodMenuData = {
             },
         },
         {
-            id: 2,
+            id: 42,
             name: "Spicy seasoned seafood noodles",
             price: 44.05,
             stock: 2,
@@ -446,7 +459,7 @@ const foodMenuData = {
             },
         },
         {
-            id: 8,
+            id: 48,
             name: "Spicy seasoned seafood noodles",
             price: 20.12,
             stock: 5,
@@ -460,7 +473,7 @@ const foodMenuData = {
             },
         },
         {
-            id: 1,
+            id: 41,
             name: "Spicy seasoned seafood noodles",
             price: 2.29,
             stock: 20,
@@ -474,7 +487,7 @@ const foodMenuData = {
             },
         },
         {
-            id: 4,
+            id: 44,
             name: "Salted Pasta with mushroom sauce",
             price: 5.59,
             stock: 12,
@@ -490,7 +503,7 @@ const foodMenuData = {
     ],
     dessert: [
         {
-            id: 9,
+            id: 59,
             name: "Spicy seasoned seafood noodles",
             price: 73.24,
             stock: 7,
@@ -504,7 +517,7 @@ const foodMenuData = {
             },
         },
         {
-            id: 4,
+            id: 54,
             name: "Salted Pasta with mushroom sauce",
             price: 5.59,
             stock: 12,
@@ -518,7 +531,7 @@ const foodMenuData = {
             },
         },
         {
-            id: 2,
+            id: 52,
             name: "Spicy seasoned seafood noodles",
             price: 44.05,
             stock: 2,
@@ -532,7 +545,7 @@ const foodMenuData = {
             },
         },
         {
-            id: 1,
+            id: 51,
             name: "Spicy seasoned seafood noodles",
             price: 2.29,
             stock: 20,
@@ -546,7 +559,7 @@ const foodMenuData = {
             },
         },
         {
-            id: 3,
+            id: 53,
             name: "Beef dumpling in hot and sour soup",
             price: 12.33,
             stock: 16,
@@ -560,7 +573,7 @@ const foodMenuData = {
             },
         },
         {
-            id: 6,
+            id: 56,
             name: "Spicy instant noodle with special omelette",
             price: 100.0,
             stock: 88,
@@ -606,17 +619,22 @@ dishBtnContainer.addEventListener("click", function (e) {
 
 
     let type = e.target.getAttribute("type")
-    renderFoodMenu(foodMenuData[type])
     currentType = type
+    renderFoodMenu(foodMenuData[type])
     search_input.value = ""
 
   }
 });
 
 function renderFoodItem(data) {
+
+    const image_id = currentType === "hotDish" ? data.id : `${data.id}`.charAt(1)
+
+
+
     return`
-    <div item-id="${data.id}" class="food-item anime">
-        <img src="./images/food${data.id}.png" alt="">
+    <div item-id="${data.id}" class="food-item anime ${data.id === current_item?.id ? "selected" : ""} ${data.stock <= 0 ? "off_stock": ""}">
+        <img src="./images/food${image_id}.png" alt="">
         <div class="food-item-info">
             <p>${data.name}</p>
             <p class="item-price">$ ${data.price}</p>
@@ -670,7 +688,7 @@ function renderExtra(addOns) {
         const ct = `
             <div class="add-on-item">
                 <div>
-                    <input type="checkbox" id="extra${idx}" name="vehicle1" value="${item.price}">
+                    <input type="checkbox" id="extra${idx}" name="${item.name}" value="${item.price}">
                     <label for="extra1"> ${item.name}</label>
                 </div>
                 <p>+${item.price}</p>
@@ -684,10 +702,13 @@ function renderExtra(addOns) {
 
 function renderDetails(details) {
     const footerEle = detailEle.innerHTML;
+
+    const cover_image = currentType === "hotDish" ? details.id : `${details.id}`.charAt(1)
+
     const detail = `
         <div class="info-container" details-id="${details.id}">
             <div class="food-descript">
-                <img src="./images/food_full_${details.id}.png" alt="">
+                <img src="./images/food_full_${cover_image}.png" alt="">
                 <div class="goup-effect">
                     <h3 class="detail-title">${details.name}</h3>
                     <p class="detail-price">$ ${details.price}</p>
@@ -703,7 +724,7 @@ function renderDetails(details) {
             <div class="food-quantity">
                 <div>
                     <button class="remove_quan_btn">-</button>
-                    <input class="quan_val" type="text" value=0>
+                    <input class="quan_val" type="text" value=1>
                     <button class="add_quan_btn">+</button>
                 </div>
                 
@@ -716,29 +737,111 @@ function renderDetails(details) {
     `;
     detailEle.innerHTML = detail  ;
     // + footerEle
-    let quan = 0;
+    
     const add_btn = document.querySelector(".add_quan_btn");
     const remove_btn = document.querySelector(".remove_quan_btn");
     const quan_display = document.querySelector(".quan_val")
 
     add_btn.addEventListener("click", function(){
+
+        if(quan >= current_item.stock){return}
         quan ++
         quan_display.value = quan
     })
     remove_btn.addEventListener("click", function(){
-        if(quan <= 0){return}
+        if(quan <= 1){return}
         quan --
         quan_display.value = quan
     })
 }
 
+function total_stock_counter(){
+    const total_item = basket.length
+    stock_counter.innerHTML = total_item + 1
+}
+
 foodMenuEle.addEventListener('click', function(e) {
-    const selectedId = e.target.closest('.food-item').getAttribute('item-id');
+
+    let pervious_ele = foodMenuEle.querySelector('.selected')
+
+    let selecter_ele = e.target.closest('.food-item')
+
+    if(!selecter_ele) return;
+
+    const selectedId = selecter_ele.getAttribute('item-id');
     const selectItem = foodMenuData[currentType].find(function(item) {
         return item.id == selectedId;
     })
-    console.log(selectItem)
+    // console.log(selectItem)
+    current_item = selectItem
+    
+    if(current_item.stock == 0){
+        
+        return}
+
+    if(pervious_ele){
+        pervious_ele.classList.remove('selected')
+    }
+    
+
+    selecter_ele.classList.add("selected")
     renderDetails(selectItem);
+
+
+    add_btn = document.querySelector(".info-add-to-cart button")
+
+    add_btn.addEventListener("click", function(e){
+        const selected_info = document.querySelector(".info-container")
+        let quantity = parseInt(selected_info.querySelector(".quan_val").value)
+        selected_info.querySelector(".quan_val").value = 1
+        quan = 1
+        let note = selected_info.querySelector(".food-note input").value
+        selected_info.querySelector(".food-note input").value = ""
+        let extra_list = selected_info.querySelectorAll(".food-add-on input")
+
+        let extra_total = 0
+        let options = []
+
+
+        total_stock_counter()
+
+        extra_list.forEach(function(item){
+            console.log(item)
+            if(item.checked){ 
+
+                const extra = {
+                    name: item.getAttribute("name"),
+                    id: item.getAttribute("id"),
+                    value: parseFloat(item.getAttribute("value")),
+                }
+                extra_total += extra.value
+
+                options.push(extra)
+                item.checked = false
+            }
+
+        })
+        
+        
+    
+        const order = {
+            id: selectItem.id,
+            quantity,
+            note,
+            extras: options,
+            total_price: selectItem.price * quantity + extra_total,
+            cate: currentType,
+
+
+        }
+        
+        basket.push(order)
+
+        
+
+        console.log("basket", basket
+        )
+    })
 });
 
 // removeBtn?.addEventListener('click', function(e) {

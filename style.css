@@ -81,6 +81,7 @@ body {
 .sorting-top {
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
 .search-selection {
@@ -371,4 +372,50 @@ p{
 .food-quantity button:hover {
     color: #e66750;
     border: 1px solid #e66750;
+}
+
+.date{
+    margin-bottom: 0px;
+    margin-top: 4px;
+}
+
+
+.cart-btn{
+    width: 35px;
+    height: 35px;
+    margin-right: 10px;
+}
+
+.right-selection{
+    display: flex;
+    align-items: center;
+}
+
+.item-counter{
+    width: 20px;
+    height: 20px;
+    border-radius: 100%;
+    background-color: white;
+    color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+
+    left: 20px;
+    top: -5px;
+
+}
+
+.cart{
+    position: relative;
+}
+
+
+.selected{
+    border: 1px solid #EA7C69;
+}
+
+.off_stock{
+    opacity: 0.4;
 }
