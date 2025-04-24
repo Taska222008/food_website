@@ -5,6 +5,13 @@ const search_input = document.querySelector(".search-box")
 const date_time = document.querySelector(".date")
 const stock_counter = document.querySelector(".item-counter span")
 
+const screen_overlay = document.querySelector(".screen-overlay")
+const cart_btn = document.querySelector(".cart")
+const cart_popup = document.querySelector(".cart-popup")
+const close_btn = document.querySelector(".close-btn")
+
+const cart_menu = document.querySelector(".cart-main")
+
 
 let add_btn;
 
@@ -773,12 +780,12 @@ foodMenuEle.addEventListener('click', function(e) {
         return item.id == selectedId;
     })
     // console.log(selectItem)
-    current_item = selectItem
     
-    if(current_item.stock == 0){
+    if(selectItem.stock == 0){
         
         return}
-
+    current_item = selectItem
+        
     if(pervious_ele){
         pervious_ele.classList.remove('selected')
     }
@@ -792,6 +799,8 @@ foodMenuEle.addEventListener('click', function(e) {
 
     add_btn.addEventListener("click", function(e){
         const selected_info = document.querySelector(".info-container")
+        let name = selected_info.querySelector(".detail-title").innerHTML
+
         let quantity = parseInt(selected_info.querySelector(".quan_val").value)
         selected_info.querySelector(".quan_val").value = 1
         quan = 1
@@ -826,6 +835,7 @@ foodMenuEle.addEventListener('click', function(e) {
     
         const order = {
             id: selectItem.id,
+            name,
             quantity,
             note,
             extras: options,
@@ -841,7 +851,25 @@ foodMenuEle.addEventListener('click', function(e) {
 
         console.log("basket", basket
         )
+
+        if(selectItem.stock >= 1){
+            selectItem.stock -= quantity
+            let a = renderFoodItem(selectItem)
+            selecter_ele.insertAdjacentHTML("afterend", a)
+            selecter_ele.remove()
+            selecter_ele = document.querySelector(`div[item-id="${selectItem.id}"]`)
+        }
+        if(selectItem.stock == 0) {
+            selecter_ele.classList.remove("selected")
+        }
     })
+
+    
+
+
+
+
+
 });
 
 // removeBtn?.addEventListener('click', function(e) {
@@ -851,3 +879,20 @@ foodMenuEle.addEventListener('click', function(e) {
 // })
 
 renderFoodMenu(foodMenuData[currentType]);
+
+
+
+
+cart_btn.addEventListener("click", function(e){
+    openCartModel(e)
+    renderCartMenu(basket)
+    
+})
+
+screen_overlay.addEventListener("click", function(e){
+    closeCartModel(e)
+})
+
+close_btn.addEventListener("click", function(e){
+    closeCartModel(e)
+})
