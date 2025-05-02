@@ -82,7 +82,7 @@ function restock_item(food_id, item_stock){
             
             return i.id == food_id
         })
-        console.log(menu_item)
+        
         if(menu_item){
             menu_item.stock += item_stock
             update_stock_dom(food_id, menu_item)
@@ -96,9 +96,13 @@ function restock_item(food_id, item_stock){
 }
 
 function update_stock_dom(id, menu_item){
-    const food_items = document.querySelectorAll(".food_item")
+    console.log('menu_item', menu_item)
+    const food_items = document.querySelectorAll(".food-item")
     food_items.forEach(function(i){
-        if(i.getAttribute("item_id") == id){
+        console.log('>> i getAttribute', i.getAttribute("item_id"))
+        console.log('>> id', id)
+        if(i.getAttribute("item-id") == id){
+            console.log('>>>', i.querySelector(".item-avai"))
             i.querySelector(".item-avai").innerHTML = `${menu_item.stock} Bowls available`
         }
     })
