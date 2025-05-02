@@ -498,3 +498,40 @@ p{
     background-color: transparent;
 
 }
+
+.cart-main{
+    height: 75%;
+    overflow: auto;
+}
+
+.highlight{
+    font-size: 20px;
+}
+
+.alert{
+    width: fit-content;
+    height: 20px;
+    border-radius: 5px;
+    background-color: #393C49;
+    color: aliceblue;
+    padding: 10px;
+    position: absolute;
+    left: 50%;
+    top: 10%;
+    border: 1px solid #e66750;
+    display: none;
+    z-index: 9999;
+
+}
+
+.alert.active{
+    display: block;
+}
+
+.remove_basket{
+    color: white;
+    border: none;
+    background: none;
+    font-size: 30px;
+    cursor: pointer;
+}

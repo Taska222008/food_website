@@ -146,27 +146,29 @@
         <div class="cart-main">
            
             <div class="food-info" food-id="1">
+                <div class="remove_item"><button class="close-btn">&times;</button></div>
+
 
                 <div>
                     <img src="./images/food1.png" alt="">
                 </div>
     
                 <div>
-                    Dish
+                    <span class="highlight">Dish</span>
                     <div class="food-name">
                         food1
                     </div>
                 </div>
 
                 <div>
-                    Quantity
+                    <span class="highlight">Quantity</span>
                     <div class="food-quantity">
                         2
                     </div>
                 </div>
 
                 <div>
-                    Price
+                    <span class="highlight">Price</span>
                     <div class="food-price">
                         $10
                     </div>
@@ -185,10 +187,22 @@
 
         </div>
 
+        
+
     </div>
+
+    <div class="alert">
+        Added too cart
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore-compat.js"></script>
+    <script src="./firebaseconfig.js"></script>
+
 
     <script src="./Script.js"></script>
     <script src="./cart_popup.js"></script>
+    <script src="./popup_alert.js"></script>
 
 </body>
 </html>

@@ -798,6 +798,9 @@ foodMenuEle.addEventListener('click', function(e) {
     add_btn = document.querySelector(".info-add-to-cart button")
 
     add_btn.addEventListener("click", function(e){
+
+        alert_active()
+
         const selected_info = document.querySelector(".info-container")
         let name = selected_info.querySelector(".detail-title").innerHTML
 
@@ -864,6 +867,7 @@ foodMenuEle.addEventListener('click', function(e) {
         }
     })
 
+    
     
 
 
