@@ -11,7 +11,7 @@ const cart_popup = document.querySelector(".cart-popup")
 const close_btn = document.querySelector(".close-btn")
 
 const cart_menu = document.querySelector(".cart-main")
-
+const orderHistory = JSON.parse(localStorage.getItem("orderHistory")) || [];
 
 let add_btn;
 
@@ -596,6 +596,13 @@ let foodMenuData = {
     ],
 };
 
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function formatCurrency(number) {
+    return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(number);
+}
 
 
 search_input.addEventListener("change", (e) => {
@@ -627,7 +634,7 @@ dishBtnContainer.addEventListener("click", function (e) {
 
     let type = e.target.getAttribute("type")
     currentType = type
-    renderFoodMenu(foodMenuData[type])
+    renderFoodMenu(foodMenuData[type]);
     search_input.value = ""
 
   }
@@ -660,34 +667,7 @@ function renderFoodMenu(food_list) {
     foodMenuEle.innerHTML = contain
 }
 
-renderFoodMenu(foodMenuData[currentType])
-
-// function renderFoodItem(data) {
-//   return `
-//         <div item-id="${data.id}" class="food-item anime">
-//             <img src="./img/food${data.id}.png" alt="">
-//             <div class="food-item-info">
-//                 <p>${data.name}</p>
-//                 <p class="item-price">$ ${data.price}</p>
-//                 <p class="item-avai">${data.stock} Bowls available</p>
-//             </div>
-//             <a class="add-to-cart-mini"><img src="./img/plus.png" alt=""></a>
-//         </div>
-//     `;
-// }
-// function renderFoodMenu(dataList) {
-//   foodMenuEle.classList.remove("goup-effect");
-//   let content = "";
-//   dataList.forEach(function (food) {
-//     content += renderFoodItem(food);
-//   });
-
-//   foodMenuEle.classList.remove("goup-effect");
-//   setTimeout(() => {
-//     foodMenuEle.innerHTML = content;
-//     foodMenuEle.classList.add("goup-effect");
-//   }, 100);
-// }
+renderFoodMenu(foodMenuData[currentType]);
 
 function renderExtra(addOns) {
     let content = '';
@@ -696,7 +676,7 @@ function renderExtra(addOns) {
             <div class="add-on-item">
                 <div>
                     <input type="checkbox" id="extra${idx}" name="${item.name}" value="${item.price}">
-                    <label for="extra1"> ${item.name}</label>
+                    <label for="extra${idx}"> ${item.name}</label>
                 </div>
                 <p>+${item.price}</p>
             </div>
@@ -762,7 +742,11 @@ function renderDetails(details) {
     })
 }
 
-function total_stock_counter(){
+function total_stock_counter(isRemoveCart){
+    if (isRemoveCart) {
+        stock_counter.innerHTML = basket.length;
+        return;
+    }
     const total_item = basket.length
     stock_counter.innerHTML = total_item + 1
 }
@@ -781,9 +765,7 @@ foodMenuEle.addEventListener('click', function(e) {
     })
     // console.log(selectItem)
     
-    if(selectItem.stock == 0){
-        
-        return}
+    if(selectItem.stock == 0) return;
     current_item = selectItem
         
     if(pervious_ele){
@@ -798,7 +780,10 @@ foodMenuEle.addEventListener('click', function(e) {
     add_btn = document.querySelector(".info-add-to-cart button")
 
     add_btn.addEventListener("click", function(e){
-
+        if (!current_item) {
+            alert_active("❌ Please select food!");
+            return;
+        };
         alert_active()
 
         const selected_info = document.querySelector(".info-container")
@@ -814,27 +799,22 @@ foodMenuEle.addEventListener('click', function(e) {
         let extra_total = 0
         let options = []
 
-
         total_stock_counter()
 
         extra_list.forEach(function(item){
-            console.log(item)
             if(item.checked){ 
-
                 const extra = {
                     name: item.getAttribute("name"),
                     id: item.getAttribute("id"),
                     value: parseFloat(item.getAttribute("value")),
                 }
-                extra_total += extra.value
+                extra_total += (extra.value * quantity)
 
                 options.push(extra)
                 item.checked = false
             }
 
         })
-        
-        
     
         const order = {
             id: selectItem.id,
@@ -842,55 +822,34 @@ foodMenuEle.addEventListener('click', function(e) {
             quantity,
             note,
             extras: options,
+            unit_price: selectItem.price,
             total_price: selectItem.price * quantity + extra_total,
             cate: currentType,
-
-
         }
         
         basket.push(order)
 
-        
-
-        console.log("basket", basket
-        )
-
         if(selectItem.stock >= 1){
             selectItem.stock -= quantity
             let a = renderFoodItem(selectItem)
+            selecter_ele = foodMenuEle.querySelector(`div[item-id="${current_item.id}"]`);
+            if (!selecter_ele) return;
             selecter_ele.insertAdjacentHTML("afterend", a)
             selecter_ele.remove()
-            selecter_ele = document.querySelector(`div[item-id="${selectItem.id}"]`)
+            selecter_ele = foodMenuEle.querySelector(`div[item-id="${selectItem.id}"]`)
         }
         if(selectItem.stock == 0) {
-            selecter_ele.classList.remove("selected")
+            selecter_ele.classList.remove("selected");
+            current_item = null;
         }
     })
-
-    
-    
-
-
-
-
-
 });
-
-// removeBtn?.addEventListener('click', function(e) {
-//     const currQuan = parseInt(quantityEle.innerHTML);
-//     currQuan += 1;
-//     quantityEle.innerHTML = currQuan;
-// })
 
 renderFoodMenu(foodMenuData[currentType]);
 
-
-
-
 cart_btn.addEventListener("click", function(e){
     openCartModel(e)
-    renderCartMenu(basket)
-    
+    cart_menu.innerHTML = renderCartMenu(basket);
 })
 
 screen_overlay.addEventListener("click", function(e){

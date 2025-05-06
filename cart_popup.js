@@ -1,7 +1,10 @@
+const confirmBasket = document.querySelector('.confirm-basket');
+const cartPopUpSubtotal = document.querySelector('.cart-footer-subtotal');
+
 function openCartModel(){
     cart_popup.classList.add("active")
     screen_overlay.classList.add("active")
-
+    cartPopUpSubtotal.innerHTML = `Sub-total: ${formatCurrency(calcSubtotal())}`;
 }
 
 function closeCartModel(){
@@ -9,49 +12,47 @@ function closeCartModel(){
     screen_overlay.classList.remove("active")
 }
 
-function renderCartItem(data, index){
+function renderCartItem(data, index, isFinal=false){
     const image_id = data.id.toString().length == 1 ? data.id : `${data.id}`.charAt(1)
-    
-    // console.log("base:", data.id.toString().length)
-    // console.log("edited:", image_id)
-    
+    const extra = data.extras.map((i) => i.name).join(' , ');
 
     return`
     <div class="food-info" food-id="${data.id}" key="${index}" quan="${data.quantity}">
-                <div class="remove_item"><button class="remove_basket">&times;</button></div>
-                <div>
-                    <img src="./images/food${image_id}.png" alt="">
-                </div>
-    
-                <div>
-                    <span class="highlight">Dish</span>
-                    <div class="food-name">
-                        ${data.name}
-                    </div>
-                </div>
+        <div class="remove_item food-info-item">${!isFinal ? '<button class="remove_basket">&times;</button>' : "▸"}</div>
+        <div class="food-info-item" style="width: 60px;">
+            <img src="./images/food${image_id}.png" alt="">
+        </div>
 
-                <div>
-                    <span class="highlight">Quantity</span>
-                    <div class="food-quantity">
-                        ${data.quantity}
-                    </div>
-                </div>
+        <div class="food-name food-info-item">
+            ${data.name}
+            <div class="food-name-extras">${data.extras.length != 0 ? `- Extra: ${extra}` : ''}</div>
+            <div class="food-name-extras">${data.note && `- Note: ${data.note}`}</div>
+        </div>
 
-                <div>
-                    <span class="highlight">Price</span>
-                    <div class="food-price">
-                        $${data.total_price}
-                    </div>
-                </div>
+        <div class="food-quantity-basket food-info-item" style="text-align: center">
+            ${data.quantity}
+        </div>
 
-            </div>`
+        <div class="food-price food-info-item">
+            ${formatCurrency(data.total_price)}
+        </div>
+
+    </div>`
 }
-function renderCartMenu(cart){
-    let contain = ""
+
+function calcSubtotal () {
+    const subtotal = basket.reduce((total, item) => {
+        return total + item.total_price;
+    }, 0);
+    return subtotal;
+}
+
+function renderCartMenu(cart, isFinal=false){
+    let contain = ''
     cart.forEach(function(food, index){
-        contain += renderCartItem(food, index)
+        contain += renderCartItem(food, index, isFinal)
     })
-    cart_menu.innerHTML = contain
+    return contain
     
 }
 cart_menu.addEventListener("click", function(e){
@@ -60,17 +61,12 @@ cart_menu.addEventListener("click", function(e){
         item_pos = e.target.closest(".food-info").getAttribute("key")
         item_id = e.target.closest(".food-info").getAttribute("food-id")
         item_stock = e.target.closest(".food-info").getAttribute("quan")
-        console.log(item_stock)
         basket.splice(parseInt(item_pos), 1)
 
-        let contain = ""
-        basket.forEach(function(food, index){
-            contain += renderCartItem(food, index)
-        })
-        cart_menu.innerHTML = contain
+        cart_menu.innerHTML = renderCartMenu(basket);
 
-        restock_item(item_id, parseInt(item_stock))
-
+        restock_item(item_id, parseInt(item_stock));
+        cartPopUpSubtotal.innerHTML = `Sub-total: ${formatCurrency(calcSubtotal())}`;
     }
 })
 
@@ -86,27 +82,24 @@ function restock_item(food_id, item_stock){
         if(menu_item){
             menu_item.stock += item_stock
             update_stock_dom(food_id, menu_item)
-        }
-
-        
-    }
-
-  
-
+        }   
+    } 
 }
 
 function update_stock_dom(id, menu_item){
-    console.log('menu_item', menu_item)
     const food_items = document.querySelectorAll(".food-item")
     food_items.forEach(function(i){
-        console.log('>> i getAttribute', i.getAttribute("item_id"))
-        console.log('>> id', id)
         if(i.getAttribute("item-id") == id){
-            console.log('>>>', i.querySelector(".item-avai"))
             i.querySelector(".item-avai").innerHTML = `${menu_item.stock} Bowls available`
         }
     })
+    total_stock_counter(true)
 }
 
-
-
+confirmBasket.addEventListener('click', (e) => {
+    if (basket.length <= 0) {
+        alert_active("🛒 Please add food to basket!", 1.5);
+        return;
+    }
+    showFinalConfirmModal();
+});

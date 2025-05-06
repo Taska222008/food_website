@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="./final_confirm_style.css">
     <title>Document</title>
 </head>
 <body>
@@ -131,64 +132,118 @@
 
     </div>
 
-    <div class="screen-overlay">
-        
+    <div>
+        <div class="screen-overlay"></div>
+        <div class="cart-popup">
+            <div class="popup-header">
+                <h2>Order summary</h2>
+                <button class="close-btn">&times;</button>
+            </div>
+            <div class="food-info-header">
+                <div class="remove_item"><button class="remove_basket"></button></div>
+                <div class="food-info-item" style="width: 60px;">
+                    <img src="" alt="" width="50px">
+                </div>
+                <div class="food-name" style="text-align: center">
+                    <span class="highlight">Dish</span>
+                </div>
+                <div class="food-quantity-basket" style="text-align: center">
+                    <span class="highlight">Quantity</span>
+                </div>
+                <div class="food-price" style="text-align: center">
+                    <span class="highlight">Sub-total</span>
+                </div>
+            </div>
+            <div class="cart-main">
+                <div class="food-info" food-id="1">
+                    <div class="remove_item"><button class="close-btn">&times;</button></div>
+                    <div>
+                        <img src="./images/food1.png" alt="">
+                    </div>
+                    <div>
+                        <span class="highlight">Dish</span>
+                        <div class="food-name">
+                            food1
+                        </div>
+                    </div>
+                    <div>
+                        <span class="highlight">Quantity</span>
+                        <div class="food-quantity">
+                            2
+                        </div>
+                    </div>
+                    <div>
+                        <span class="highlight">Price</span>
+                        <div class="food-price">
+                            $10
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="cart-footer">
+                <div class="cart-footer-subtotal">
+                    Sub-total: $0
+                </div>
+                <div class="confirm-basket">
+                    <button>Next</button>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="cart-popup">
-
-        <div class="popup-header">
-            <h2>Order summary</h2>
-            <button class="close-btn">&times;</button>
-
-        </div>
-
-        <div class="cart-main">
-           
-            <div class="food-info" food-id="1">
-                <div class="remove_item"><button class="close-btn">&times;</button></div>
-
-
-                <div>
-                    <img src="./images/food1.png" alt="">
+    <div class="final-confirm-modal">
+        <div class="screen-overlay-final-confirm"></div>
+        <div class="final-confirm-popup">
+            <div class="final-cf-pop-header">
+                <div class="tooltip">
+                    <button class="close-btn">⬅</button>
+                    <div class="tooltip-text">Go back</div>
                 </div>
-    
-                <div>
-                    <span class="highlight">Dish</span>
-                    <div class="food-name">
-                        food1
-                    </div>
-                </div>
-
-                <div>
-                    <span class="highlight">Quantity</span>
-                    <div class="food-quantity">
-                        2
-                    </div>
-                </div>
-
-                <div>
-                    <span class="highlight">Price</span>
-                    <div class="food-price">
-                        $10
-                    </div>
-                </div>
-
+                <h2>Order information</h2>
             </div>
+            <div class="final-cf-pop-main">
+                <div class="final-cf-pop-list-food"></div>
+                <form id="orderForm" onsubmit="return confirm('Are you sure you want to place this order?');">   
+                    <div style="display: flex; justify-content: space-between; gap: 10px">
+                        <div style="width: 50%">
+                            <label for="name">Full Name *</label>
+                            <input type="text" id="cus_name" name="cus_name" required />
+                        </div>
+                        <div style="width: 50%">
+                            <label for="phone">Phone Number *</label>
+                            <input type="text" id="cus_phone" name="cus_phone" required />
+                        </div>
+                    </div>
 
-           
-            
-
-         
-
+                    <div style="display: flex; justify-content: space-between; gap: 10px">
+                        <div style="width: 50%">
+                            <label for="address">Address *</label>
+                            <input type="text" id="cus_address" name="cus_address" required />
+                        </div>
+                        <div style="width: 50%">
+                            <label for="email">Email</label>
+                            <input type="email" id="cus_email" name="cus_email" />
+                        </div>
+                    </div>
+                
+                    <div class="summary">
+                        <label for="shipping">Shipping Fee</label>
+                        <input type="text" id="shipping_cost" name="shipping_cost" value="5.00" readonly />
+                    
+                        <label for="subtotal">Subtotal</label>
+                        <input type="text" id="subtotal_summary" name="subtotal_summary" value="50.00" readonly />
+                    
+                        <label for="total">Total Amount</label>
+                        <input type="text" id="total_summary" name="total_summary" value="55.00" readonly />
+                    </div>
+                </form>
+            </div>
+            <div class="final-cf-pop-footer">
+                <div class="final-cf-pop-btn">
+                    <button type="submit">Place Order</button>
+                </div>
+            </div>
         </div>
-
-        <div class="cart-footer">
-
-        </div>
-
-        
-
     </div>
 
     <div class="alert">
@@ -203,6 +258,7 @@
     <script src="./Script.js"></script>
     <script src="./cart_popup.js"></script>
     <script src="./popup_alert.js"></script>
+    <script src="./final_confirm.js"></script>
 
 </body>
 </html>
