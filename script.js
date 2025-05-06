@@ -1,12 +1,38 @@
 const dishBtnContainer = document.querySelector(".dish-type");
 const foodMenuEle = document.querySelector(".food-menu");
 const detailEle = document.querySelector(".info");
+const search_input = document.querySelector(".search-box")
+const date_time = document.querySelector(".date")
+const stock_counter = document.querySelector(".item-counter span")
+
+const screen_overlay = document.querySelector(".screen-overlay")
+const cart_btn = document.querySelector(".cart")
+const cart_popup = document.querySelector(".cart-popup")
+const close_btn = document.querySelector(".close-btn")
+
+const cart_menu = document.querySelector(".cart-main")
+
+
+let add_btn;
+
 // const addBtn = document.querySelector(".add_quan_btn");
 // let removeBtn = document.querySelector(".remove_quan_btn");
 // let quantityEle = document.querySelector(".quan_val");
 
+let basket = []
+
+let quan = 1;
+
+
 let currentType = "hotDish";
-const foodMenuData = {
+
+let current_item;
+
+
+date_time.innerHTML = new Intl.DateTimeFormat("en-GB", {dateStyle:"full"}).format(new Date())
+
+
+let foodMenuData = {
     hotDish: [
         {
             id: 1,
@@ -16,14 +42,14 @@ const foodMenuData = {
             details: {
                 desc: "A bold and flavorful dish featuring tender noodles tossed in a rich, spicy sauce, infused with aromatic seasonings. Loaded with a medley of fresh seafood, including shrimp, squid, and mussels, this dish offers a perfect balance of heat and savory ocean flavors. Garnished with fresh herbs and a hint of lime for a zesty finish.",
                 extra: [
-                    { name: "Egg", price: 2 },
-                    { name: "Noodle", price: 2.5 },
-                    { name: "Beef", price: 5.5 },
+                { name: "Egg", price: 2 },
+                { name: "Noodle", price: 2.5 },
+                { name: "Beef", price: 5.5 },
                 ],
             },
         },
         {
-            id: 2,
+            id: 4,
             name: "Salted Pasta with mushroom sauce",
             price: 5.59,
             stock: 12,
@@ -51,7 +77,7 @@ const foodMenuData = {
             },
         },
         {
-            id: 4,
+            id: 7,
             name: "Healthy noodle with spinach leaf",
             price: 10.99,
             stock: 26,
@@ -93,7 +119,7 @@ const foodMenuData = {
             },
         },
         {
-            id: 7,
+            id: 2,
             name: "Spicy seasoned seafood noodles",
             price: 44.05,
             stock: 2,
@@ -137,12 +163,12 @@ const foodMenuData = {
     ],
     coldDish: [
         {
-            id: 6,
-            name: "Creamy seafood pasta",
-            price: 3.49,
-            stock: 15,
+            id: 11,
+            name: "Spicy seasoned seafood noodles",
+            price: 2.29,
+            stock: 20,
             details: {
-                desc: "A bold and flavorful dish featuring tender noodles tossed in a rich, spicy sauce, infused with aromatic seasonings. Loaded with a medley of fresh seafood, including shrimp, squid, and mussels, this dish offers a perfect balance of heat and savory ocean flavors.",
+                desc: "A bold and flavorful dish featuring tender noodles tossed in a rich, spicy sauce, infused with aromatic seasonings. Loaded with a medley of fresh seafood, including shrimp, squid, and mussels, this dish offers a perfect balance of heat and savory ocean flavors. Garnished with fresh herbs and a hint of lime for a zesty finish.",
                 extra: [
                 { name: "Egg", price: 2 },
                 { name: "Noodle", price: 2.5 },
@@ -150,255 +176,443 @@ const foodMenuData = {
                 ],
             },
         },
+    
         {
-            id: 5,
-            name: "Garlic butter shrimp linguine",
-            price: 6.99,
-            stock: 10,
+            id: 13,
+            name: "Beef dumpling in hot and sour soup",
+            price: 12.33,
+            stock: 16,
             details: {
-                desc: "A bold and flavorful dish featuring tender noodles tossed in a rich, spicy sauce, infused with aromatic seasonings. Loaded with a medley of fresh seafood, including shrimp, squid, and mussels, this dish offers a perfect balance of heat and savory ocean flavors.",
+                desc: "A hearty and tangy soup with tender beef dumplings, simmered in a flavorful broth with a perfect balance of hot and sour notes. Served with fresh cilantro and a splash of vinegar for extra zest.",
                 extra: [
-                { name: "Egg", price: 2 },
-                { name: "Noodle", price: 2.5 },
-                { name: "Beef", price: 5.5 },
+                { name: "Extra Dumpling", price: 3 },
+                { name: "Chili Oil", price: 1 },
+                { name: "Tofu", price: 2.5 },
                 ],
             },
         },
         {
-            id: 5,
-            name: "Pork dumplings in savory broth",
-            price: 11.25,
-            stock: 18,
+            id: 17,
+            name: "Healthy noodle with spinach leaf",
+            price: 10.99,
+            stock: 26,
+            details: {
+                desc: "A nutritious and light noodle dish featuring fresh spinach leaves and a subtle garlic-infused sauce. A perfect choice for a healthy yet satisfying meal.",
+                extra: [
+                { name: "Grilled Chicken", price: 3.5 },
+                { name: "Boiled Egg", price: 2 },
+                { name: "Avocado", price: 4 },
+                ],
+            },
         },
-        {
-            id: 4,
-        name: "Quinoa salad with spinach and avocado",
-        price: 9.79,
-        stock: 30,
-        },
-        {
-            id: 1,
-        name: "Egg fried rice with chili sauce",
-        price: 55.99,
-        stock: 3,
-        },
-        {
-            id: 2,
-        name: "Vegetable ramen with soft boiled egg",
-        price: 98.75,
-        stock: 85,
-        },
-        {
-            id: 8,
-        name: "Seafood curry noodles",
-        price: 45.5,
-        stock: 6,
-        },
-        {
-            id: 9,
-        name: "Chicken ramen in spicy broth",
-        price: 21.25,
-        stock: 9,
-        },
-        {
-            id: 3,
-        name: "Special mixed seafood udon",
-        price: 70.0,
-        stock: 4,
-        },
+       
     ],
     soup: [
         {
-            id: 5,
-            name: "Classic chicken noodle soup",
-            price: 4.99,
-            stock: 25,
+            id: 23,
+            name: "Beef dumpling in hot and sour soup",
+            price: 12.33,
+            stock: 16,
+            details: {
+                desc: "A hearty and tangy soup with tender beef dumplings, simmered in a flavorful broth with a perfect balance of hot and sour notes. Served with fresh cilantro and a splash of vinegar for extra zest.",
+                extra: [
+                { name: "Extra Dumpling", price: 3 },
+                { name: "Chili Oil", price: 1 },
+                { name: "Tofu", price: 2.5 },
+                ],
+            },
         },
         {
-            id: 2,
-            name: "Creamy tomato basil soup",
-            price: 3.89,
-            stock: 18,
-        },
-        {
-            id: 9,
-            name: "Hearty beef and barley soup",
-            price: 7.45,
+            id: 22,
+            name: "Salted Pasta with mushroom sauce",
+            price: 5.59,
             stock: 12,
+            details: {
+                desc: "A creamy and savory pasta dish served with a rich mushroom sauce, perfectly seasoned to enhance the earthy flavors of the mushrooms. Garnished with freshly grated Parmesan and parsley for a gourmet touch.",
+                extra: [
+                { name: "Extra Cheese", price: 1.5 },
+                { name: "Mushroom", price: 2 },
+                { name: "Chicken", price: 4 },
+                ],
+            },
         },
         {
-        name: "Spicy lentil and vegetable soup",
-        price: 5.99,
-        stock: 20,
+            id: 29,
+            name: "Spicy seasoned seafood noodles",
+            price: 73.24,
+            stock: 7,
+            details: {
+                desc: "A bold and flavorful dish featuring tender noodles tossed in a rich, spicy sauce, infused with aromatic seasonings. Loaded with a medley of fresh seafood, including shrimp, squid, and mussels, this dish offers a perfect balance of heat and savory ocean flavors.",
+                extra: [
+                { name: "Egg", price: 2 },
+                { name: "Noodle", price: 2.5 },
+                { name: "Beef", price: 5.5 },
+                ],
+            },
         },
         {
-        name: "Seafood chowder with herbs",
-        price: 12.5,
-        stock: 8,
+            id: 27,
+            name: "Healthy noodle with spinach leaf",
+            price: 10.99,
+            stock: 26,
+            details: {
+                desc: "A nutritious and light noodle dish featuring fresh spinach leaves and a subtle garlic-infused sauce. A perfect choice for a healthy yet satisfying meal.",
+                extra: [
+                { name: "Grilled Chicken", price: 3.5 },
+                { name: "Boiled Egg", price: 2 },
+                { name: "Avocado", price: 4 },
+                ],
+            },
         },
-        {
-        name: "Butternut squash soup",
-        price: 6.49,
-        stock: 22,
-        },
-        {
-        name: "Miso soup with tofu and seaweed",
-        price: 3.75,
-        stock: 30,
-        },
-        {
-        name: "Clam chowder in sourdough bread bowl",
-        price: 9.99,
-        stock: 10,
-        },
-        {
-        name: "Thai coconut chicken soup",
-        price: 8.25,
-        stock: 15,
-        },
+       
     ],
     grill: [
         {
-        name: "Grilled chicken with BBQ sauce",
-        price: 7.99,
-        stock: 20,
+            id: 38,
+            name: "Spicy seasoned seafood noodles",
+            price: 20.12,
+            stock: 5,
+            details: {
+                desc: "A bold and flavorful dish featuring tender noodles tossed in a rich, spicy sauce, infused with aromatic seasonings. Loaded with a medley of fresh seafood, including shrimp, squid, and mussels, this dish offers a perfect balance of heat and savory ocean flavors.",
+                extra: [
+                { name: "Egg", price: 2 },
+                { name: "Noodle", price: 2.5 },
+                { name: "Beef", price: 5.5 },
+                ],
+            },
         },
         {
-        name: "Smoky grilled beef steak",
-        price: 15.49,
-        stock: 12,
+            id: 36,
+            name: "Spicy instant noodle with special omelette",
+            price: 100.0,
+            stock: 88,
+            details: {
+                desc: "A luxurious take on instant noodles, elevated with a special omelet and a blend of spices that provide a mouthwatering kick. Topped with fresh scallions and sesame seeds.",
+                extra: [
+                { name: "Extra Sauce", price: 1 },
+                { name: "Egg", price: 2 },
+                { name: "Beef", price: 5 },
+                ],
+            },
         },
         {
-        name: "Grilled salmon with lemon butter",
-        price: 12.99,
-        stock: 18,
+            id: 35,
+            name: "Hot spicy fried rice with omelet",
+            price: 60.33,
+            stock: 0,
+            details: {
+                desc: "A fiery and flavorful fried rice dish loaded with spices, vegetables, and a fluffy omelet on top. The bold spices provide a tantalizing heat that is balanced by the creamy omelet.",
+                extra: [
+                { name: "Extra Omelet", price: 3 },
+                { name: "Shrimp", price: 5 },
+                { name: "Vegetables", price: 2 },
+                ],
+            },
         },
         {
-        name: "Grilled vegetable skewer platter",
-        price: 6.49,
-        stock: 25,
+            id: 37,
+            name: "Healthy noodle with spinach leaf",
+            price: 10.99,
+            stock: 26,
+            details: {
+                desc: "A nutritious and light noodle dish featuring fresh spinach leaves and a subtle garlic-infused sauce. A perfect choice for a healthy yet satisfying meal.",
+                extra: [
+                { name: "Grilled Chicken", price: 3.5 },
+                { name: "Boiled Egg", price: 2 },
+                { name: "Avocado", price: 4 },
+                ],
+            },
         },
         {
-        name: "Grilled pork chops with rosemary",
-        price: 14.25,
-        stock: 10,
+            id: 39,
+            name: "Spicy seasoned seafood noodles",
+            price: 73.24,
+            stock: 7,
+            details: {
+                desc: "A bold and flavorful dish featuring tender noodles tossed in a rich, spicy sauce, infused with aromatic seasonings. Loaded with a medley of fresh seafood, including shrimp, squid, and mussels, this dish offers a perfect balance of heat and savory ocean flavors.",
+                extra: [
+                { name: "Egg", price: 2 },
+                { name: "Noodle", price: 2.5 },
+                { name: "Beef", price: 5.5 },
+                ],
+            },
         },
         {
-        name: "Grilled lamb kebabs with yogurt dip",
-        price: 16.99,
-        stock: 8,
+            id: 34,
+            name: "Salted Pasta with mushroom sauce",
+            price: 5.59,
+            stock: 12,
+            details: {
+                desc: "A creamy and savory pasta dish served with a rich mushroom sauce, perfectly seasoned to enhance the earthy flavors of the mushrooms. Garnished with freshly grated Parmesan and parsley for a gourmet touch.",
+                extra: [
+                { name: "Extra Cheese", price: 1.5 },
+                { name: "Mushroom", price: 2 },
+                { name: "Chicken", price: 4 },
+                ],
+            },
         },
         {
-        name: "Grilled shrimp tacos",
-        price: 10.49,
-        stock: 15,
+            id: 32,
+            name: "Spicy seasoned seafood noodles",
+            price: 44.05,
+            stock: 2,
+            details: {
+                desc: "A bold and flavorful dish featuring tender noodles tossed in a rich, spicy sauce, infused with aromatic seasonings. Loaded with a medley of fresh seafood, including shrimp, squid, and mussels, this dish offers a perfect balance of heat and savory ocean flavors.",
+                extra: [
+                { name: "Egg", price: 2 },
+                { name: "Noodle", price: 2.5 },
+                { name: "Beef", price: 5.5 },
+                ],
+            },
         },
         {
-        name: "Grilled corn on the cob with spices",
-        price: 5.25,
-        stock: 22,
+            id: 31,
+            name: "Spicy seasoned seafood noodles",
+            price: 2.29,
+            stock: 20,
+            details: {
+                desc: "A bold and flavorful dish featuring tender noodles tossed in a rich, spicy sauce, infused with aromatic seasonings. Loaded with a medley of fresh seafood, including shrimp, squid, and mussels, this dish offers a perfect balance of heat and savory ocean flavors. Garnished with fresh herbs and a hint of lime for a zesty finish.",
+                extra: [
+                { name: "Egg", price: 2 },
+                { name: "Noodle", price: 2.5 },
+                { name: "Beef", price: 5.5 },
+                ],
+            },
         },
         {
-        name: "Grilled cheese sandwich",
-        price: 4.99,
-        stock: 30,
+            id: 33,
+            name: "Beef dumpling in hot and sour soup",
+            price: 12.33,
+            stock: 16,
+            details: {
+                desc: "A hearty and tangy soup with tender beef dumplings, simmered in a flavorful broth with a perfect balance of hot and sour notes. Served with fresh cilantro and a splash of vinegar for extra zest.",
+                extra: [
+                { name: "Extra Dumpling", price: 3 },
+                { name: "Chili Oil", price: 1 },
+                { name: "Tofu", price: 2.5 },
+                ],
+            },
         },
     ],
     appetizer: [
         {
-        name: "Crispy spring rolls",
-        price: 4.99,
-        stock: 25,
+            id: 42,
+            name: "Spicy seasoned seafood noodles",
+            price: 44.05,
+            stock: 2,
+            details: {
+                desc: "A bold and flavorful dish featuring tender noodles tossed in a rich, spicy sauce, infused with aromatic seasonings. Loaded with a medley of fresh seafood, including shrimp, squid, and mussels, this dish offers a perfect balance of heat and savory ocean flavors.",
+                extra: [
+                { name: "Egg", price: 2 },
+                { name: "Noodle", price: 2.5 },
+                { name: "Beef", price: 5.5 },
+                ],
+            },
         },
         {
-        name: "Garlic breadsticks with marinara dip",
-        price: 3.79,
-        stock: 30,
+            id: 41,
+            name: "Spicy seasoned seafood noodles",
+            price: 2.29,
+            stock: 20,
+            details: {
+                desc: "A bold and flavorful dish featuring tender noodles tossed in a rich, spicy sauce, infused with aromatic seasonings. Loaded with a medley of fresh seafood, including shrimp, squid, and mussels, this dish offers a perfect balance of heat and savory ocean flavors. Garnished with fresh herbs and a hint of lime for a zesty finish.",
+                extra: [
+                { name: "Egg", price: 2 },
+                { name: "Noodle", price: 2.5 },
+                { name: "Beef", price: 5.5 },
+                ],
+            },
         },
         {
-        name: "Stuffed mushroom caps",
-        price: 6.49,
-        stock: 18,
+            id: 43,
+            name: "Beef dumpling in hot and sour soup",
+            price: 12.33,
+            stock: 16,
+            details: {
+                desc: "A hearty and tangy soup with tender beef dumplings, simmered in a flavorful broth with a perfect balance of hot and sour notes. Served with fresh cilantro and a splash of vinegar for extra zest.",
+                extra: [
+                { name: "Extra Dumpling", price: 3 },
+                { name: "Chili Oil", price: 1 },
+                { name: "Tofu", price: 2.5 },
+                ],
+            },
         },
         {
-        name: "Mini bruschetta with tomato and basil",
-        price: 5.25,
-        stock: 22,
+            id: 46,
+            name: "Spicy instant noodle with special omelette",
+            price: 100.0,
+            stock: 88,
+            details: {
+                desc: "A luxurious take on instant noodles, elevated with a special omelet and a blend of spices that provide a mouthwatering kick. Topped with fresh scallions and sesame seeds.",
+                extra: [
+                { name: "Extra Sauce", price: 1 },
+                { name: "Egg", price: 2 },
+                { name: "Beef", price: 5 },
+                ],
+            },
         },
         {
-        name: "Fried mozzarella sticks",
-        price: 7.99,
-        stock: 15,
+            id: 42,
+            name: "Spicy seasoned seafood noodles",
+            price: 44.05,
+            stock: 2,
+            details: {
+                desc: "A bold and flavorful dish featuring tender noodles tossed in a rich, spicy sauce, infused with aromatic seasonings. Loaded with a medley of fresh seafood, including shrimp, squid, and mussels, this dish offers a perfect balance of heat and savory ocean flavors.",
+                extra: [
+                { name: "Egg", price: 2 },
+                { name: "Noodle", price: 2.5 },
+                { name: "Beef", price: 5.5 },
+                ],
+            },
         },
         {
-        name: "Spicy chicken wings",
-        price: 8.49,
-        stock: 10,
+            id: 48,
+            name: "Spicy seasoned seafood noodles",
+            price: 20.12,
+            stock: 5,
+            details: {
+                desc: "A bold and flavorful dish featuring tender noodles tossed in a rich, spicy sauce, infused with aromatic seasonings. Loaded with a medley of fresh seafood, including shrimp, squid, and mussels, this dish offers a perfect balance of heat and savory ocean flavors.",
+                extra: [
+                { name: "Egg", price: 2 },
+                { name: "Noodle", price: 2.5 },
+                { name: "Beef", price: 5.5 },
+                ],
+            },
         },
         {
-        name: "Cheesy nachos with jalapeños",
-        price: 6.99,
-        stock: 20,
+            id: 41,
+            name: "Spicy seasoned seafood noodles",
+            price: 2.29,
+            stock: 20,
+            details: {
+                desc: "A bold and flavorful dish featuring tender noodles tossed in a rich, spicy sauce, infused with aromatic seasonings. Loaded with a medley of fresh seafood, including shrimp, squid, and mussels, this dish offers a perfect balance of heat and savory ocean flavors. Garnished with fresh herbs and a hint of lime for a zesty finish.",
+                extra: [
+                { name: "Egg", price: 2 },
+                { name: "Noodle", price: 2.5 },
+                { name: "Beef", price: 5.5 },
+                ],
+            },
         },
         {
-        name: "Classic deviled eggs",
-        price: 4.49,
-        stock: 25,
-        },
-        {
-        name: "Potato skins with bacon and cheese",
-        price: 7.25,
-        stock: 12,
+            id: 44,
+            name: "Salted Pasta with mushroom sauce",
+            price: 5.59,
+            stock: 12,
+            details: {
+                desc: "A creamy and savory pasta dish served with a rich mushroom sauce, perfectly seasoned to enhance the earthy flavors of the mushrooms. Garnished with freshly grated Parmesan and parsley for a gourmet touch.",
+                extra: [
+                { name: "Extra Cheese", price: 1.5 },
+                { name: "Mushroom", price: 2 },
+                { name: "Chicken", price: 4 },
+                ],
+            },
         },
     ],
     dessert: [
         {
-        name: "Classic tiramisu",
-        price: 5.99,
-        stock: 20,
+            id: 59,
+            name: "Spicy seasoned seafood noodles",
+            price: 73.24,
+            stock: 7,
+            details: {
+                desc: "A bold and flavorful dish featuring tender noodles tossed in a rich, spicy sauce, infused with aromatic seasonings. Loaded with a medley of fresh seafood, including shrimp, squid, and mussels, this dish offers a perfect balance of heat and savory ocean flavors.",
+                extra: [
+                { name: "Egg", price: 2 },
+                { name: "Noodle", price: 2.5 },
+                { name: "Beef", price: 5.5 },
+                ],
+            },
         },
         {
-        name: "Cheesecake with berry topping",
-        price: 6.49,
-        stock: 18,
+            id: 54,
+            name: "Salted Pasta with mushroom sauce",
+            price: 5.59,
+            stock: 12,
+            details: {
+                desc: "A creamy and savory pasta dish served with a rich mushroom sauce, perfectly seasoned to enhance the earthy flavors of the mushrooms. Garnished with freshly grated Parmesan and parsley for a gourmet touch.",
+                extra: [
+                { name: "Extra Cheese", price: 1.5 },
+                { name: "Mushroom", price: 2 },
+                { name: "Chicken", price: 4 },
+                ],
+            },
         },
         {
-        name: "Chocolate lava cake",
-        price: 7.99,
-        stock: 15,
+            id: 52,
+            name: "Spicy seasoned seafood noodles",
+            price: 44.05,
+            stock: 2,
+            details: {
+                desc: "A bold and flavorful dish featuring tender noodles tossed in a rich, spicy sauce, infused with aromatic seasonings. Loaded with a medley of fresh seafood, including shrimp, squid, and mussels, this dish offers a perfect balance of heat and savory ocean flavors.",
+                extra: [
+                { name: "Egg", price: 2 },
+                { name: "Noodle", price: 2.5 },
+                { name: "Beef", price: 5.5 },
+                ],
+            },
         },
         {
-        name: "Vanilla ice cream with caramel drizzle",
-        price: 4.49,
-        stock: 30,
+            id: 51,
+            name: "Spicy seasoned seafood noodles",
+            price: 2.29,
+            stock: 20,
+            details: {
+                desc: "A bold and flavorful dish featuring tender noodles tossed in a rich, spicy sauce, infused with aromatic seasonings. Loaded with a medley of fresh seafood, including shrimp, squid, and mussels, this dish offers a perfect balance of heat and savory ocean flavors. Garnished with fresh herbs and a hint of lime for a zesty finish.",
+                extra: [
+                { name: "Egg", price: 2 },
+                { name: "Noodle", price: 2.5 },
+                { name: "Beef", price: 5.5 },
+                ],
+            },
         },
         {
-        name: "Strawberry shortcake",
-        price: 5.25,
-        stock: 25,
+            id: 53,
+            name: "Beef dumpling in hot and sour soup",
+            price: 12.33,
+            stock: 16,
+            details: {
+                desc: "A hearty and tangy soup with tender beef dumplings, simmered in a flavorful broth with a perfect balance of hot and sour notes. Served with fresh cilantro and a splash of vinegar for extra zest.",
+                extra: [
+                { name: "Extra Dumpling", price: 3 },
+                { name: "Chili Oil", price: 1 },
+                { name: "Tofu", price: 2.5 },
+                ],
+            },
         },
         {
-        name: "Apple pie with cinnamon",
-        price: 4.99,
-        stock: 22,
-        },
-        {
-        name: "Creamy panna cotta with fruit",
-        price: 6.79,
-        stock: 12,
-        },
-        {
-        name: "Churros with chocolate dip",
-        price: 5.99,
-        stock: 10,
-        },
-        {
-        name: "Lemon tart with whipped cream",
-        price: 6.25,
-        stock: 18,
+            id: 56,
+            name: "Spicy instant noodle with special omelette",
+            price: 100.0,
+            stock: 88,
+            details: {
+                desc: "A luxurious take on instant noodles, elevated with a special omelet and a blend of spices that provide a mouthwatering kick. Topped with fresh scallions and sesame seeds.",
+                extra: [
+                { name: "Extra Sauce", price: 1 },
+                { name: "Egg", price: 2 },
+                { name: "Beef", price: 5 },
+                ],
+            },
         },
     ],
 };
+
+
+
+search_input.addEventListener("change", (e) => {
+    let search_value = search_input.value;
+    search_food(search_value)
+
+})
+
+function search_food(value) {
+    let search_data = foodMenuData[currentType].filter(function(e){
+        if(e.name.toLowerCase().includes(value.toLowerCase())){
+            return true
+        }
+    })
+    renderFoodMenu(search_data)
+}
+
 
 dishBtnContainer.addEventListener("click", function (e) {
   if (e.target.classList[1] === "dish-btn") {
@@ -409,37 +623,71 @@ dishBtnContainer.addEventListener("click", function (e) {
 
     // add the active class to clicked button
     e.target.classList.add("active");
-    const typeFood = e.target.getAttribute("type");
-    console.log(typeFood);
-    renderFoodMenu(foodMenuData[typeFood]);
-    currentType = typeFood;
+
+
+    let type = e.target.getAttribute("type")
+    currentType = type
+    renderFoodMenu(foodMenuData[type])
+    search_input.value = ""
+
   }
 });
 
 function renderFoodItem(data) {
-  return `
-        <div item-id="${data.id}" class="food-item anime">
-            <img src="./img/food${data.id}.png" alt=""> 
-            <div class="food-item-info">
-                <p>${data.name}</p>
-                <p class="item-price">$ ${data.price}</p>
-                <p class="item-avai">${data.stock} Bowls available</p>
-            </div>
-            <a class="add-to-cart-mini"><img src="./img/plus.png" alt=""></a>
+
+    const image_id = currentType === "hotDish" ? data.id : `${data.id}`.charAt(1)
+
+
+
+    return`
+    <div item-id="${data.id}" class="food-item anime ${data.id === current_item?.id ? "selected" : ""} ${data.stock <= 0 ? "off_stock": ""}">
+        <img src="./images/food${image_id}.png" alt="">
+        <div class="food-item-info">
+            <p>${data.name}</p>
+            <p class="item-price">$ ${data.price}</p>
+            <p class="item-avai">${data.stock} Bowls available</p>
         </div>
+        <a class="add-to-cart-mini"><img src="./images/plus.png" alt=""></a>
+    </div>
     `;
 }
-function renderFoodMenu(dataList) {
-  let content = "";
-  dataList.forEach(function (food) {
-    content += renderFoodItem(food);
-  });
-  foodMenuEle.classList.remove("goup-effect");
-  setTimeout(() => {
-    foodMenuEle.innerHTML = content;
-    foodMenuEle.classList.add("goup-effect");
-  }, 100);
+
+function renderFoodMenu(food_list) {
+    let contain = "";
+    food_list.forEach(function(food){
+        contain += renderFoodItem(food)
+    })
+    foodMenuEle.innerHTML = contain
 }
+
+renderFoodMenu(foodMenuData[currentType])
+
+// function renderFoodItem(data) {
+//   return `
+//         <div item-id="${data.id}" class="food-item anime">
+//             <img src="./img/food${data.id}.png" alt="">
+//             <div class="food-item-info">
+//                 <p>${data.name}</p>
+//                 <p class="item-price">$ ${data.price}</p>
+//                 <p class="item-avai">${data.stock} Bowls available</p>
+//             </div>
+//             <a class="add-to-cart-mini"><img src="./img/plus.png" alt=""></a>
+//         </div>
+//     `;
+// }
+// function renderFoodMenu(dataList) {
+//   foodMenuEle.classList.remove("goup-effect");
+//   let content = "";
+//   dataList.forEach(function (food) {
+//     content += renderFoodItem(food);
+//   });
+
+//   foodMenuEle.classList.remove("goup-effect");
+//   setTimeout(() => {
+//     foodMenuEle.innerHTML = content;
+//     foodMenuEle.classList.add("goup-effect");
+//   }, 100);
+// }
 
 function renderExtra(addOns) {
     let content = '';
@@ -447,7 +695,7 @@ function renderExtra(addOns) {
         const ct = `
             <div class="add-on-item">
                 <div>
-                    <input type="checkbox" id="extra${idx}" name="vehicle1" value="${item.price}">
+                    <input type="checkbox" id="extra${idx}" name="${item.name}" value="${item.price}">
                     <label for="extra1"> ${item.name}</label>
                 </div>
                 <p>+${item.price}</p>
@@ -461,10 +709,13 @@ function renderExtra(addOns) {
 
 function renderDetails(details) {
     const footerEle = detailEle.innerHTML;
+
+    const cover_image = currentType === "hotDish" ? details.id : `${details.id}`.charAt(1)
+
     const detail = `
         <div class="info-container" details-id="${details.id}">
             <div class="food-descript">
-                <img src="./img/food_full_${details.id}.png" alt="">
+                <img src="./images/food_full_${cover_image}.png" alt="">
                 <div class="goup-effect">
                     <h3 class="detail-title">${details.name}</h3>
                     <p class="detail-price">$ ${details.price}</p>
@@ -480,7 +731,7 @@ function renderDetails(details) {
             <div class="food-quantity">
                 <div>
                     <button class="remove_quan_btn">-</button>
-                    <input class="quan_val" type="text" value=0>
+                    <input class="quan_val" type="text" value=1>
                     <button class="add_quan_btn">+</button>
                 </div>
                 
@@ -491,34 +742,161 @@ function renderDetails(details) {
             <button>Add to cart</button>
         </div>
     `;
-    detailEle.innerHTML = detail ;
+    detailEle.innerHTML = detail  ;
+    // + footerEle
+    
+    const add_btn = document.querySelector(".add_quan_btn");
+    const remove_btn = document.querySelector(".remove_quan_btn");
+    const quan_display = document.querySelector(".quan_val")
 
-    let quantity = 0;
-    const addQuanEle = document.querySelector('.add_quan_btn');
-    const removeQuanEle = document.querySelector('.remove_quan_btn');
-    const quanInput = document.querySelector('.quan_val');
-    console.log('addQuanEle', addQuanEle)
-    addQuanEle.addEventListener('click', function(e) {
-        quantity++;
-        quanInput.value = quantity;
-    });
-    removeQuanEle.addEventListener('click', function(e) {
-        if (quantity <= 0) return;
-        quantity--;
-        quanInput.value = quantity;
+    add_btn.addEventListener("click", function(){
+
+        if(quan >= current_item.stock){return}
+        quan ++
+        quan_display.value = quan
+    })
+    remove_btn.addEventListener("click", function(){
+        if(quan <= 1){return}
+        quan --
+        quan_display.value = quan
     })
 }
 
+function total_stock_counter(){
+    const total_item = basket.length
+    stock_counter.innerHTML = total_item + 1
+}
+
 foodMenuEle.addEventListener('click', function(e) {
-    if (e.target.closest('.food-item')) {
-        const selectedId = e.target.closest('.food-item').getAttribute('item-id');
-   
-        const selectItem = foodMenuData[currentType].find(function(item) {
-            return item.id == selectedId;
-        })
-        renderDetails(selectItem);
+
+    let pervious_ele = foodMenuEle.querySelector('.selected')
+
+    let selecter_ele = e.target.closest('.food-item')
+
+    if(!selecter_ele) return;
+
+    const selectedId = selecter_ele.getAttribute('item-id');
+    const selectItem = foodMenuData[currentType].find(function(item) {
+        return item.id == selectedId;
+    })
+    // console.log(selectItem)
+    
+    if(selectItem.stock == 0){
+        
+        return}
+    current_item = selectItem
+        
+    if(pervious_ele){
+        pervious_ele.classList.remove('selected')
     }
     
+
+    selecter_ele.classList.add("selected")
+    renderDetails(selectItem);
+
+
+    add_btn = document.querySelector(".info-add-to-cart button")
+
+    add_btn.addEventListener("click", function(e){
+
+        alert_active()
+
+        const selected_info = document.querySelector(".info-container")
+        let name = selected_info.querySelector(".detail-title").innerHTML
+
+        let quantity = parseInt(selected_info.querySelector(".quan_val").value)
+        selected_info.querySelector(".quan_val").value = 1
+        quan = 1
+        let note = selected_info.querySelector(".food-note input").value
+        selected_info.querySelector(".food-note input").value = ""
+        let extra_list = selected_info.querySelectorAll(".food-add-on input")
+
+        let extra_total = 0
+        let options = []
+
+
+        total_stock_counter()
+
+        extra_list.forEach(function(item){
+            console.log(item)
+            if(item.checked){ 
+
+                const extra = {
+                    name: item.getAttribute("name"),
+                    id: item.getAttribute("id"),
+                    value: parseFloat(item.getAttribute("value")),
+                }
+                extra_total += extra.value
+
+                options.push(extra)
+                item.checked = false
+            }
+
+        })
+        
+        
+    
+        const order = {
+            id: selectItem.id,
+            name,
+            quantity,
+            note,
+            extras: options,
+            total_price: selectItem.price * quantity + extra_total,
+            cate: currentType,
+
+
+        }
+        
+        basket.push(order)
+
+        
+
+        console.log("basket", basket
+        )
+
+        if(selectItem.stock >= 1){
+            selectItem.stock -= quantity
+            let a = renderFoodItem(selectItem)
+            selecter_ele.insertAdjacentHTML("afterend", a)
+            selecter_ele.remove()
+            selecter_ele = document.querySelector(`div[item-id="${selectItem.id}"]`)
+        }
+        if(selectItem.stock == 0) {
+            selecter_ele.classList.remove("selected")
+        }
+    })
+
+    
+    
+
+
+
+
+
 });
 
+// removeBtn?.addEventListener('click', function(e) {
+//     const currQuan = parseInt(quantityEle.innerHTML);
+//     currQuan += 1;
+//     quantityEle.innerHTML = currQuan;
+// })
+
 renderFoodMenu(foodMenuData[currentType]);
+
+
+
+
+cart_btn.addEventListener("click", function(e){
+    openCartModel(e)
+    renderCartMenu(basket)
+    
+})
+
+screen_overlay.addEventListener("click", function(e){
+    closeCartModel(e)
+})
+
+close_btn.addEventListener("click", function(e){
+    closeCartModel(e)
+})

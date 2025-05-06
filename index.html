@@ -11,16 +11,16 @@
 
 
         <div class="navigate-bar">
-            <div class="btn-logo"><button class="button"><img src="./img/Logo.png" class="logo"></button></div>
+            <div class="btn-logo"><button class="button"><img src="./images/Logo.png" class="logo"></button></div>
 
             <div class="btns">
-                <button class="button"><img src="./img/Frame-65.png" class="btn-img"></button>
-                <button class="button"><img src="./img/Frame-66.png" class="btn-img"></button>
-                <button class="button"><img src="./img/Frame-67.png" class="btn-img"></button>
-                <button class="button"><img src="./img/Frame-68.png" class="btn-img"></button>
-                <button class="button"><img src="./img/Frame-69.png" class="btn-img"></button>
-                <button class="button"><img src="./img/Frame-70.png" class="btn-img"></button>
-                <button class="button"><img src="./img/exit.png" class="btn-img"></button>
+                <button class="button"><img src="./images/Home.svg" class="btn-img"></button>
+                <button class="button"><img src="./images/Discount.svg" class="btn-img"></button>
+                <button class="button"><img src="./images/Dashboard.svg" class="btn-img"></button>
+                <button class="button"><img src="./images/Message.svg" class="btn-img"></button>
+                <button class="button"><img src="./images/Notification.svg" class="btn-img"></button>
+                <button class="button"><img src="./images/Setting.svg" class="btn-img"></button>
+                <button class="button"><img src="./images/Logout.svg" class="btn-img"></button>
             </div>
         </div>
 
@@ -29,22 +29,26 @@
             <div class="sorting">
                 <div class="sorting-top">
                     <div>
-                        <h1>Jaegar Resto</h1>
-                        <p style="margin-top: 4px; margin-bottom: 0px;">Tuesday, 2 Feb 2021</p>
+                        <h1>Menu</h1>
+                        <p class="date">Friday, 24 Jan 2025</p>
                     </div>
-                    
-                    <div class="sorting-top-right">
-                        <div class="basket">
-                            <img src="./img/basket.png" alt="">
-                            <div>
-                                <span>12</span>
-                            </div>
+
+
+
+                    <div class="right-selection">
+                        <div class="cart">
+
+                            <div class="item-counter"><span>0</span></div>
+                            <img src="./images/cart.svg" class="cart-btn">
+                        
                         </div>
+        
                         <div class="search-selection">
-                            <img src="./img/search.svg" alt="">
+                            <img src="./images/search.svg" alt="">
                             <input type="text" placeholder="Search for food, coffe, etc.." class="search-box">
                         </div>
-                    </div>
+                    </div>    
+                
                 </div>
 
                 <div class="dish-type">
@@ -126,6 +130,79 @@
 
 
     </div>
-    <script src="./script.js"></script>
+
+    <div class="screen-overlay">
+        
+    </div>
+
+    <div class="cart-popup">
+
+        <div class="popup-header">
+            <h2>Order summary</h2>
+            <button class="close-btn">&times;</button>
+
+        </div>
+
+        <div class="cart-main">
+           
+            <div class="food-info" food-id="1">
+                <div class="remove_item"><button class="close-btn">&times;</button></div>
+
+
+                <div>
+                    <img src="./images/food1.png" alt="">
+                </div>
+    
+                <div>
+                    <span class="highlight">Dish</span>
+                    <div class="food-name">
+                        food1
+                    </div>
+                </div>
+
+                <div>
+                    <span class="highlight">Quantity</span>
+                    <div class="food-quantity">
+                        2
+                    </div>
+                </div>
+
+                <div>
+                    <span class="highlight">Price</span>
+                    <div class="food-price">
+                        $10
+                    </div>
+                </div>
+
+            </div>
+
+           
+            
+
+         
+
+        </div>
+
+        <div class="cart-footer">
+
+        </div>
+
+        
+
+    </div>
+
+    <div class="alert">
+        Added too cart
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore-compat.js"></script>
+    <script src="./firebaseconfig.js"></script>
+
+
+    <script src="./Script.js"></script>
+    <script src="./cart_popup.js"></script>
+    <script src="./popup_alert.js"></script>
+
 </body>
 </html>
