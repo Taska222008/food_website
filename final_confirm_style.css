@@ -56,20 +56,20 @@
     border-radius: 6px;
     color: #1F1D2B;
 }
-/* .final-cf-pop-footer button {
-    margin-top: 15px;
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
+
+.final-confirm-modal .summary input{
     border: none;
-    border-radius: 4px;
-    cursor: pointer;
+    border-top: 1px solid gray;
 }
-.final-cf-pop-footer button:hover {
-    background-color: #0056b3;
-} */
+
+.final-confirm-modal .summary input:nth-of-type(3){
+    font-size: 20px;
+    font-weight: bold;
+}
 
 .final-cf-pop-footer {
+    position: absolute;
+    bottom: 0px;
     display: flex;
     width: 100%;
     height: 40px;
@@ -108,4 +108,80 @@
 .final-cf-pop-main {
     height: 80%;
     overflow-y: auto;
+}
+
+.order-detail {
+    width: 100%;
+    height: 100vh;
+    background-image: url("./images/foodBack.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.order-detail-info {
+    background: white;
+    width: 55%;
+    height: 600px;
+    border-radius: 10px;
+    border: 1px solid white;
+    margin: 0 auto;
+}
+
+.order-detail-info-back {
+    text-align: center;
+    margin: 10px 0px 30px 0px;
+}
+.order-detail-info-back a{
+    color: #EA7C69;
+}
+
+.order-detail-info img{
+    width: 40px;
+    height: 40px;
+}
+
+.order-detail-info h2 {
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    font-size: 20px;
+}
+
+.order-detail-info-list {
+    margin: 20px;
+    height: 250px;
+    overflow-y: auto;
+}
+
+.order-detail-info-sum {
+    position: absolute;
+    text-align: right;
+    width: fit-content;
+    padding: 10px;
+    right: 25px;
+}
+
+.order-detail-info-sum div {
+    margin-bottom: 10px;
+}
+
+.order-detail-info-sum div:nth-of-type(3) {
+    border-top: 1px solid gray;
+    font-weight: bold;
+}
+
+.order-detail-info-cus {
+    margin: 20px 25px;
+}
+.order-detail-info-cus p{
+    font-size: 14px;
+    color: black !important;
+    margin: 7px 0px;
 }

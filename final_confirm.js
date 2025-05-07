@@ -11,10 +11,10 @@ let SHIPPING_COST = 10;
 let subTotalAmount;
 let totalAmount;
 
-function renderFoodItemSummary() {
+function groupItemInBasket(itemList) {
     const summaryCart = {};
     const sumCartArr = [];
-    basket.forEach((item, index) => {
+    itemList.forEach((item, index) => {
         if (item.extras.length == 0 && item.note == '') {
             if (!summaryCart[item.id]) {
                 summaryCart[item.id] = {...item};
@@ -28,6 +28,11 @@ function renderFoodItemSummary() {
             sumCartArr.push({...summaryCart[`${item.id}-other-${index}`]});
         }
     });
+    return sumCartArr;
+}
+
+function renderFoodItemSummary() {
+    const sumCartArr = groupItemInBasket(basket);
     listFoodFinalConfirm.innerHTML = renderCartMenu(sumCartArr, true);
 }
 
@@ -48,11 +53,17 @@ function hideFinalConfirmModal() {
     finalConfirmOverlay.classList.remove('active');
 };
 
+function resetBasket() {
+    basket = [];
+    hideFinalConfirmModal();
+    closeCartModel();
+    stock_counter.innerHTML = 0;
+}
+
 closeFinalConfirmBtn.addEventListener('click', hideFinalConfirmModal);
 finalConfirmOverlay.addEventListener('click', hideFinalConfirmModal);
 
 submitFormBtn.addEventListener('click', (e) => {
-    const orderId =`${new Date().getTime()}${getRandomInt(1000, 9999)}`
     const orderData = {};
     for (let i = 0; i < formOrder.elements.length; i++) {
         orderData[formOrder.elements[i].name] = formOrder.elements[i].value;
@@ -60,17 +71,28 @@ submitFormBtn.addEventListener('click', (e) => {
     orderData.shipping_cost = SHIPPING_COST;
     orderData.subtotal_summary = subTotalAmount;
     orderData.total_summary = totalAmount;
-    orderData.orderID = orderId;
     orderData.basket = [...basket];
-
-    basket = [];
-    hideFinalConfirmModal();
-    closeCartModel();
-    stock_counter.innerHTML = 0;
-    alert_active(`<div style="font-size: 20px; font-weight: bold">✅ Order succesfully </div> <br /> <div style="font-style: italic;">Order ID: ${orderId} </div> <br/> <small>We will contact you shortly</small>`, 7);
-    console.log('orderData',orderData)
+    orderData.time = Date.now();
     orderHistory.push(orderData);
 
-    localStorage.setItem("orderHistory", JSON.stringify(orderHistory));
+    placeOrderAPI(orderData).then((res) => {
+        orderData.orderID = res;
+        alert_active(`<div style="font-size: 20px; font-weight: bold">✅ Order succesfully </div> <br /> <div style="font-style: italic;">Order ID: ${res.toUpperCase()} </div> <br/> <small>We will contact you shortly</small>`, 3);
+        localStorage.setItem("orderHistory", JSON.stringify(orderHistory));
+        const orderListHtml = renderOrderHtmlEmail(groupItemInBasket(orderData.basket));
+        
+        const emailObj = {
+            ...orderData,
+            name: orderData.cus_name,
+            orderID: res,
+            link: `${window.location.origin}/order?id=${res}`,
+            order_list: orderListHtml,
+        }
+        notifyEmail(emailObj);
+        setTimeout(() => {
+            window.location.href = `${window.location.origin}/order?id=${res}`;
+        }, 3000);
+        resetBasket();
+    });
 });
 
