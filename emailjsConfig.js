@@ -1,5 +1,5 @@
 emailjs.init({
-    publicKey: "XD62okOn48us-Dnhn",
+    publicKey: "DuQjvhy1QXswHHjgb",
 });
 
 function renderOrderHtmlEmail(orderItems) {
@@ -43,7 +43,7 @@ function renderOrderHtmlEmail(orderItems) {
 
 function notifyEmail(emailObj) {
     console.log('>>> notifyEmail', emailObj)
-    emailjs.send("service_kcgyado","template_37v24jm", {
+    emailjs.send("service_yxsji4c","template_37v24jm", {
         ...emailObj,
     }).then((res) => {
         console.log(res)

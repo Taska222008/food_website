@@ -89,9 +89,9 @@ submitFormBtn.addEventListener('click', (e) => {
             order_list: orderListHtml,
         }
         notifyEmail(emailObj);
-        setTimeout(() => {
-            window.location.href = `${window.location.origin}/order?id=${res}`;
-        }, 3000);
+        // setTimeout(() => {
+        //     window.location.href = `${window.location.origin}/order?id=${res}`;
+        // }, 3000);
         resetBasket();
     });
 });
