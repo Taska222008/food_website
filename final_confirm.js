@@ -60,6 +60,12 @@ function resetBasket() {
     stock_counter.innerHTML = 0;
 }
 
+function emailIsValid(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+}
+  
+
+
 closeFinalConfirmBtn.addEventListener('click', hideFinalConfirmModal);
 finalConfirmOverlay.addEventListener('click', hideFinalConfirmModal);
 
@@ -75,24 +81,43 @@ submitFormBtn.addEventListener('click', (e) => {
     orderData.time = Date.now();
     orderHistory.push(orderData);
 
-    placeOrderAPI(orderData).then((res) => {
-        orderData.orderID = res;
-        alert_active(`<div style="font-size: 20px; font-weight: bold">✅ Order succesfully </div> <br /> <div style="font-style: italic;">Order ID: ${res.toUpperCase()} </div> <br/> <small>We will contact you shortly</small>`, 3);
-        localStorage.setItem("orderHistory", JSON.stringify(orderHistory));
-        const orderListHtml = renderOrderHtmlEmail(groupItemInBasket(orderData.basket));
-        
-        const emailObj = {
-            ...orderData,
-            name: orderData.cus_name,
-            orderID: res,
-            link: `${window.location.origin}/order?id=${res}`,
-            order_list: orderListHtml,
-        }
-        notifyEmail(emailObj);
-        setTimeout(() => {
-            window.location.href = `${window.location.origin}/order?id=${res}`;
-        }, 3000);
-        resetBasket();
-    });
+    if (orderData.cus_name == ""){
+        alert_active("Please enter your name")
+    }
+    else if (orderData.cus_phone == ""){
+        alert_active("Please enter your phone number")
+    }
+    else if(orderData.cus_address == ""){
+        alert_active("Please enter your address")
+    }
+    else if (orderData.cus_email == ""){
+        alert_active("Please enter your email address")
+    }
+    else if (emailIsValid(orderData.cus_email) == false){
+        alert_active("Email address not valid")
+    }
+    
+    else{
+
+        placeOrderAPI(orderData).then((res) => {
+            orderData.orderID = res;
+            alert_active(`<div style="font-size: 20px; font-weight: bold">✅ Order succesfully </div> <br /> <div style="font-style: italic;">Order ID: ${res.toUpperCase()} </div> <br/> <small>We will contact you shortly</small>`, 3);
+            localStorage.setItem("orderHistory", JSON.stringify(orderHistory));
+            const orderListHtml = renderOrderHtmlEmail(groupItemInBasket(orderData.basket));
+            
+            const emailObj = {
+                ...orderData,
+                name: orderData.cus_name,
+                orderID: res,
+                link: `${window.location.origin}/order?id=${res}`,
+                order_list: orderListHtml,
+            }
+            notifyEmail(emailObj);
+            setTimeout(() => {
+                window.location.href = `${window.location.origin}/order?id=${res}`;
+            }, 3000);
+            resetBasket();
+        });
+    }
 });
 
